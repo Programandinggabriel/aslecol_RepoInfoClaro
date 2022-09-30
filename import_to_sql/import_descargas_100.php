@@ -27,28 +27,15 @@ $bd = obtenerBD();
 
 # El archivo a importar
 # Recomiendo poner la ruta absoluta si no está junto al script
-$rutaArchivo = "../xlsx/consoldescarg05sept2021.xlsx";
+$rutaArchivo = "../xlsx/consolidado_descargas.xlsx";
 $docInfo = IOFactory::load($rutaArchivo);
 
-# Preparar base de datos para que los inserts sean rápidos
-$bd->beginTransaction();
-
-# Preparar sentencia de productos
-$campos = "numerodecliente, accountcode, crmorigen, numeroreferenciadepago, edaddedeuda, modinitcta, debtageinicial, nombrecampaña, 
-fechadeasignacion, email, telefono1, telefono2, telefono3, telefono4, documento, ciudad, nombredelcliente, min, plan, direccioncompleta, 
-potencialmark, prepotencialmark, writeoffmark, refinanciedmark, customertypeid, activeslines, preciosubscripcion, accstsname";
-
-/*$campos = "numerodecliente";*/
-$sentencia = $bd->prepare("INSERT INTO consoldescar (".$campos.") 
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-#Rvecorremos hojas
+#Recorremos hojas
 $totalHojas = $docInfo->getSheetCount();
 for($indiceHoja = 0 ; $indiceHoja < ($totalHojas) ; $indiceHoja++){
-
+    
     $hojaAct = $docInfo->getSheet($indiceHoja);
-    # Calcular el máximo valor de la fila como entero, es decir, el
-    # límite de nuestro ciclo
+    # Calcular el máximo valor de la fila como entero, es decir, el límite de nuestro ciclo
     $numeroMayorDeFila = $hojaAct->getHighestRow(); // Numérico
     $letraMayorDeColumna = $hojaAct->getHighestColumn(); // Letra
     $numeroMayorDeColumna = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($letraMayorDeColumna); # Convertir la letra al número de columna correspondiente
@@ -58,29 +45,49 @@ for($indiceHoja = 0 ; $indiceHoja < ($totalHojas) ; $indiceHoja++){
     $filaCompleta = []; 
 
     $terminado = false;
-    $indiceFila = 2; //recorre las filas
+    $indiceFila = 2; #almacena primera fila
+    $rangoFilas = 0; #almacena ultima fila (rng)
     $limitFilas = 100;
     while ($terminado == false){
-
-        $rangoFilas = ($indiceFila + $limitFilas); //indice donde termina el rango
         
-        #evalua existencia de rango de 100 filas
-        if($rangoFilas <= $numeroMayorDeFila){
+        # nueva transacción de datos 
+        # Preparar base de datos para que los inserts sean rápidos
+        $bd->beginTransaction();
+
+        $campos = "numerodecliente, accountcode, crmorigen, numeroreferenciadepago, edaddedeuda, modinitcta, debtageinicial, nombrecampaña, 
+        fechadeasignacion, email, telefono1, telefono2, telefono3, telefono4, documento, ciudad, nombredelcliente, min, plan, direccioncompleta, 
+        potencialmark, prepotencialmark, writeoffmark, refinanciedmark, customertypeid, activeslines, preciosubscripcion, accstsname";
+
+        #prepara sentencia
+        $sentencia = $bd->prepare("INSERT INTO consoldescar (".$campos.") 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"); 
+
+        #evalua que ya se hayan tomado 100 filas para actualizar el indice
+        if($rangoFilas >= $limitFilas){
             
-            #evalua que ya se hayan tomado 100 filas y actualiza el indice
-            if($rangoFilas >= 100){
-                
-                $indiceFila = $rangoFilas;
-                
-
-            };
-
+            #toma el ultimo valor del rng cargado 
+            #desfasa una fila
+            $indiceFila = $rangoFilas + 1; 
+        
         }else{
-
-            $rangoFilas = $numeroMayorDeFila;
+           
+            $indiceFila = 2;
         
         };
+
+        $rangoFilas = ($indiceFila + $limitFilas); //toma un rng de 100 filas en el excel
         
+        #si no hay existencia de rng 100 fls
+        #toma el valor de la ult fila del excel
+        if($rangoFilas >= $numeroMayorDeFila){
+            
+            $rangoFilas = $numeroMayorDeFila;
+
+        };
+        
+        echo "<br> inicio: " . $indiceFila;
+        echo "<br> fin: " . $rangoFilas;
+
         #Recorrer filas
         for ($filaActual = $indiceFila; $filaActual <= $rangoFilas; $filaActual++) {
 
@@ -108,9 +115,12 @@ for($indiceHoja = 0 ; $indiceHoja < ($totalHojas) ; $indiceHoja++){
         
         $bd->commit();
         
-        echo "<strong> Se han subido ". $rangoFilas ."</strong>";
+        #resto 2 ranoFilas = filas con base en Excel
+        echo "<br> Se han subido ". ($rangoFilas - 2) ."</br>";
+        
         //sleep(1);
 
+        #control while
         if($rangoFilas == $numeroMayorDeFila){
 
             $terminado = true;
