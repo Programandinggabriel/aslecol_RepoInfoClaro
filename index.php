@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
-  <title>Subir Archivos</title>
+  <title>Subir consolidado_descargas</title>
 </head>
 
 
@@ -23,7 +23,7 @@
         <input class="col-9 text-uppercase" type="file" name="archivo" id="archivo" required>
       </div>
 
-      <div class="progress mt-5">
+      <div class="progress mt-5" style="height:30px;">
         <div class="progress-bar bg-success" id="barra_estado">
           <span></span>
         </div>
