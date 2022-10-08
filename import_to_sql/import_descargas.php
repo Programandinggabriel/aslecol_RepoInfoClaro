@@ -111,7 +111,7 @@ for($indiceHoja = 0 ; $indiceHoja < ($totalHojas) ; $indiceHoja++){
         
         };
         
-        $indiceFila = $rangoFilas; //refresca para tomar nuevo rango
+        $indiceFila = $rangoFilas + 1; //refresca para tomar nuevo rango
 
         $bd->commit();
         
