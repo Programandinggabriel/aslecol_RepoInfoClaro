@@ -43,6 +43,9 @@ try{
     };
 };
 
+echo "var nhojas = 0;";
+echo "var porcentaje = 0;";
+
 #Rvecorremos hojas
 $totalHojas = $docInfo->getSheetCount();
 for($indiceHoja = 0 ; $indiceHoja < ($totalHojas) ; $indiceHoja++){
@@ -119,7 +122,7 @@ for($indiceHoja = 0 ; $indiceHoja < ($totalHojas) ; $indiceHoja++){
 
         $porcentaje = intval(($rangoFilas * 100) / $numeroMayorDeFila);
         echo "<script>";
-            echo"var porcentaje = ".$porcentaje.";";
+            echo"porcentaje = ".$porcentaje.";";
         echo "</script>";
 
         //sleep(1);

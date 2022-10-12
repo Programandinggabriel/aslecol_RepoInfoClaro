@@ -48,12 +48,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
     }).then((result)=>{
         if(result.isConfirmed){
           
-          var peticion_carga_sql = new XMLHttpRequest();
+          carga_sql();
 
-          //abrimos petición para cargue a sql
-          peticion_carga_sql.open("GET", "import_to_sql/import_descargas.php");
-          peticion_carga_sql.send();
-        
         }else{
         
           swal.fire({
@@ -118,6 +114,19 @@ function subir_archivos(form) {
   });
 
   function carga_sql(){
+    
+    //peticion carga sql
+    var peticion_carga_sql = new XMLHttpRequest();
+
+    peticion_carga_sql.upload.addEventListener('progress')
+    
+    
+    
+    
+    
+    //abrimos petición para cargue a sql
+    peticion_carga_sql.open("GET", "import_to_sql/import_descargas.php");
+    peticion_carga_sql.send();
 
   };
 
