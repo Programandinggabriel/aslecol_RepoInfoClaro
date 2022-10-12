@@ -6,13 +6,13 @@
   span = barra_estado.children[0],
   boton_cancelar = form.children[2].children[1];
 
-document.addEventListener("DOMContentLoaded", ()=>{
+  document.addEventListener("DOMContentLoaded", ()=>{
   
-  form.addEventListener("submit", function(event){
-    
-    event.preventDefault();
-    
-    subir_archivos(this);
+    form.addEventListener("submit", function(event){
+      
+        event.preventDefault();
+        
+        subir_archivos(this);
   
   });
 
@@ -113,21 +113,21 @@ function subir_archivos(form) {
  
   });
 
+  };
+
   function carga_sql(){
     
     //peticion carga sql
     var peticion_carga_sql = new XMLHttpRequest();
 
-    peticion_carga_sql.upload.addEventListener('progress')
+    //peticion_carga_sql.upload.addEventListener('progress',)
     
     
     
     
     
     //abrimos petición para cargue a sql
-    peticion_carga_sql.open("GET", "import_to_sql/import_descargas.php");
+    peticion_carga_sql.open("GET", "import_to_bd/import_descargas.php");
     peticion_carga_sql.send();
 
-  };
-
-}
+};
