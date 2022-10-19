@@ -97,7 +97,7 @@ function subir_archivos(form) {
   });
 
   //enviar datos
-  peticion.open('post','upld_to_server/subir.php');
+  peticion.open('post','../upld_to_server/subir.php');
   peticion.send(new FormData(form));
 
   //cancelado
@@ -127,7 +127,7 @@ function subir_archivos(form) {
     
     
     //abrimos petición para cargue a sql
-    peticion_carga_sql.open("GET", "import_to_bd/import_descargas.php");
+    peticion_carga_sql.open("GET", "../import_to_bd/import_descargas.php");
     peticion_carga_sql.send();
 
 };

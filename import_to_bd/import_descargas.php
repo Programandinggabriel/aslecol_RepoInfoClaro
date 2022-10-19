@@ -106,7 +106,8 @@ for($indiceHoja = 0 ; $indiceHoja < ($totalHojas) ; $indiceHoja++){
             
             }catch(Exception $e){
                 
-                echo "<br>".$filaActual;
+                echo "<br  error_fila: >".$filaActual;
+                echo " " . $e->getMessage();
             
             };
 
