@@ -17,7 +17,8 @@
 require_once "../vendor/autoload.php";
 
 # Nuestra base de datos
-require_once "../bd_conect/bd.php";
+//require_once "../bd_conect/bd.php";
+require_once "../bd_conect/bd_postgre.php";
 
 # Indicar que usaremos el IOFactory
 use PhpOffice\PhpSpreadsheet\IOFactory;
