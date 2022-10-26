@@ -24,12 +24,12 @@
     
     let nombreArch = inpt_Arch.files[0].name.toLowerCase() ;
 
-    if (! (nombreArch == 'consolidado_descargas.xlsx' || nombreArch == 'consolidado_descargas.xls')){
+    /*if (! (nombreArch == 'consolidado_descargas.xlsx' || nombreArch == 'consolidado_descargas.xls')){
       
       alert("Se esperaba el archivo con el nombre (consolidado_descargas)");
       inpt_Arch.value = '';
     
-    };
+    };*/
     
   });
 
