@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 19-10-2022 a las 17:04:04
+-- Tiempo de generación: 27-10-2022 a las 21:03:55
 -- Versión del servidor: 5.7.33
 -- Versión de PHP: 7.4.19
 
@@ -39,10 +39,10 @@ CREATE TABLE `consoldescar` (
   `nombrecampaña` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fechadeasignacion` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `telefono1` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `telefono2` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `telefono3` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `telefono4` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telefono1` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telefono2` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telefono3` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telefono4` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `documento` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ciudad` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nombredelcliente` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -59,6 +59,8 @@ CREATE TABLE `consoldescar` (
   `accstsname` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
 -- Estructura de tabla para la tabla `infofechaxx`
 --
@@ -73,6 +75,9 @@ CREATE TABLE `infofechaxx` (
   `aslesoft` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Campo de informe',
   `saldo_aslesoft` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Campo de informe',
   `super` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Campo de informe',
+  `concepto` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'campo de informe',
+  `segmento` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'campo de informe',
+  `prioridad` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'campo de informe',
   `exclusion` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Campo de informe',
   `modinitcta` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `debtageinicial` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -86,10 +91,10 @@ CREATE TABLE `infofechaxx` (
   `nombrecampaña` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fechadeasignacion` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `telefono1` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `telefono2` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `telefono3` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `telefono4` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telefono1` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telefono2` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telefono3` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telefono4` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `documento` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ciudad` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nombredelcliente` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -130,7 +135,7 @@ ALTER TABLE `infofechaxx`
 -- AUTO_INCREMENT de la tabla `consoldescar`
 --
 ALTER TABLE `consoldescar`
-  MODIFY `id_consoldescar` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14118;
+  MODIFY `id_consoldescar` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `infofechaxx`
