@@ -2,9 +2,9 @@
 let form = document.getElementById('form_subir');
   
 //controles de carga form
-var barra_estado = form.children[1].children[0],
+var barra_estado = document.getElementById('barra_estado'),
 span = barra_estado.children[0],
-boton_cancelar = form.children[2].children[1];
+boton_cancelar = form.children[0].children[1].children[1].children[1];
 
 document.addEventListener("DOMContentLoaded", ()=>{
 
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 });
 
 
-let inpt_Arch = form.children[0].children[1];
+let inpt_Arch = form.children[0].children[0].children[1];
 
 inpt_Arch.setAttribute('accept', '.csv');
 
@@ -35,7 +35,7 @@ inpt_Arch.addEventListener('change', ()=>{
 });
 
 
-let boton_cargaBd = form.children[2].children[2];
+let boton_cargaBd = form.children[0].children[1].children[1].children[2];
 boton_cargaBd.setAttribute('hidden', true);
 
 boton_cargaBd.addEventListener('click', ()=>{

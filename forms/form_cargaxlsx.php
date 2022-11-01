@@ -11,39 +11,36 @@
   <title>Subir Archivos</title>
 </head>
 
-
-<body class="p-5">
-
-<h1 class="row justify-content-center">Subir consolidado_descargas</h1>
-
-  <div class ="">   
-
+<body>
+<div class="container">
+  <h1 class="row justify-content-center pb-2">Subir consolidado_descargas</h1>
     <form action="" id="form_subir">
-
-      <div class="row-12">
-        <label class="col-3 col-form-label-lg" for="" >Archivo a Subir: </label>
-        <input class="col-9 text-uppercase" type="file" name="archivo" id="archivo" required>
-      </div>
-
-      <div class="progress mt-5" style="height:30px;">
-        <div class="progress-bar bg-success" id="barra_estado">
-          <span style="font-size:30px;"></span>
+      <div class='row'>
+      
+        <div class="col">
+          <label class="col-3 col-form-label-lg" for="" >Archivo a Subir: </label>
+          <input class="col-9 text-uppercase" type="file" name="archivo" id="archivo" required>
         </div>
+
+        <div class='col'>
+          
+        <div class="row">
+          <div class="progress mt-5" style="height:30px;">
+            <div class="progress-bar bg-success" id="barra_estado">
+              <span style="font-size:30px;"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+          <input class='col-sm-2 btn btn-success' type="submit" value="Enviar">
+          <input class='col-sm-2 mx-3 btn btn-danger' type="button" value="Cancelar" id="cancelar">
+          <input class='col-sm-2 offset-sm-5 p-2 btn btn-outline-primary' type="button" value="Cargar a base" id="cargaBd">    
+        </div>
+      
       </div>
-
-      <div class="row mt-5 p-2">
-        
-        <input class='col-sm-2 btn btn-success' type="submit" value="Enviar">
-        <input class='col-sm-2 mx-3 btn btn-danger' type="button" value="Cancelar" id="cancelar">
-        <input class='col-sm-2 offset-sm-5 btn btn-outline-primary' type="button" value="Cargar a base" dataid="cargaBd">    
-        
-      </div>
-
-
     </form>
-  
   </div>
-  <script src="../js/form_carga.js"></script>
 </body>
-
+<script src="../js/form_carga.js"></script>
 </html>
