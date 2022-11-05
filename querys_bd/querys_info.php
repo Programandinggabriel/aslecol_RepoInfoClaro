@@ -35,7 +35,7 @@ AND  lower(crmorigen) = 'sga';";
 //campo cartera
 $query_up = "UPDATE infofechaxx 
 SET cartera = 'REFINANCIADOS' 
-WHERE refinanciedmark LIKE 'Y';"; 
+WHERE lower(refinanciedmark) LIKE 'y';"; 
 
 $query_up = "UPDATE infofechaxx SET 
     cartera =  
