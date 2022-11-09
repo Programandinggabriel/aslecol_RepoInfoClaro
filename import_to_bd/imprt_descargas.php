@@ -9,6 +9,10 @@ $columnasReq = array(1, 2, 3, 32, 4, 9, 13, 12, 15, 19, 20, 21, 22, 23, 25, 27, 
 $filaCompleta = []; 
 
 for($archivo = 1 ; $archivo <= ($_GET['num_Files']) ; $archivo++){
+    $rutaCsv = '../csv/consolidado_descargas'. $archivo .'.csv';
+    $fileCsv = fopen($rutaCsv,'r');
+    $countRows = 0;
+
     # Preparar base de datos para que los inserts sean rápidos
     $bd->beginTransaction();
 
@@ -21,13 +25,9 @@ for($archivo = 1 ; $archivo <= ($_GET['num_Files']) ; $archivo++){
     $sentencia = $bd->prepare("INSERT INTO consoldescar (".$campos.") 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-    $rutaCsv = '../csv/consolidado_descargas'. $archivo .'.csv';
-    $fileCsv = fopen($rutaCsv,'r');
-    $countLine = 0;
-
     while($lineCsv = fgetcsv($fileCsv,0,';')){
-        $countLine++;
-        if($countLine > 1){
+        $countRows++;
+        if($countRows > 1){
             foreach($columnasReq as $col){
                 array_push($filaCompleta, $lineCsv[$col - 1]);  
             };
@@ -35,16 +35,14 @@ for($archivo = 1 ; $archivo <= ($_GET['num_Files']) ; $archivo++){
             try{
                 $sentencia->execute($filaCompleta);
             }catch(Exception $e){
-                echo "<br> Fila ".$countLine;
+                echo "<br> Fila ".$countRows;
                 echo $e->getMessage();
             };
-            
             $filaCompleta = [];
         };
-
     };
-    $bd->commit();
     fclose($fileCsv);
+    $bd->commit();
     echo "Subido correctamente";
 };
 ?>

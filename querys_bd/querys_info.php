@@ -11,13 +11,12 @@ numeroreferenciadepago, edaddedeuda, modinitcta, debtageinicial, nombrecampaña,
 email, telefono1, telefono2, telefono3, telefono4, documento, ciudad, nombredelcliente, min, plan, 
 direccioncompleta, potencialmark, prepotencialmark, writeoffmark, refinanciedmark, customertypeid, 
 activeslines, preciosubscripcion, accstsname) 
-SELECT * FROM consoldescar;
+SELECT * FROM consoldescar;";
 
-TRUNCATE TABLE consoldescar;";
+$query_Trunc = "TRUNCATE TABLE consoldescar;";
 
 //campo ASIGNACIÓN
 $query_up = "UPDATE infofechaxx SET asignacion = 'GEVENUE'";
-
 
 //campo verificacion_pyme
 $query_up = "UPDATE infofechaxx 
