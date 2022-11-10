@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     case 2: //ciudades_normalizado
       $('#header').html('Cargar acumulado de ciudades normalizado');
       break;
+    case 3:
+      $('#header').html('Cargar Ascard');
   };
 
   f_updt_DOM();
@@ -88,6 +90,9 @@ function f_valida_nomFiles(){
       break;
     case 2: //ciudades_normalizado
       nombre_file = "ciudades_normalizado";
+      break;
+    case 3: //ascard
+      nombre_file = "ascard";
       break;
   };
 
@@ -211,11 +216,14 @@ function f_Carga_Bd(){
   let url = "";
   
   switch(numFile){
-    case 1:
+    case 1: //descargas 
       url = "../import_to_bd/imprt_descargas.php";
       break;
-    case 2:
+    case 2: //ciudades norm
       url="../import_to_bd/imprt_ciud_norm.php"
+      break;
+    case 3: //ascard
+      url="../import_to_bd/ascard.php"
       break;
   };
 

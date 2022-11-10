@@ -12,29 +12,46 @@
     integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
     crossorigin="anonymous">
   </script>
-
+  
   <title>Inicio</title>
 </head>
 <div class='container'>
   <section class='row justify-content-center align-items-center vh-100'>
-
-    <div class='row' id='bnts_load_files'>
+    <table class='table text-center' style='width: 1000px;' id='bnts_load_files'>
+      <th>Archivos</th>
       
-      <div class='col-md-2'>
-        <button class='btn btn-warning' id='1'>     
-          CONSOLIDADO DE DESCARGAS
-        </button>
-      </div>
-    
-      <div class='col-md-2 offset-md-1'>
-        <button class='btn btn-warning' id='2'>
-          CIUDADES NORMALIZADO
-        </button>
-      </div>
+      <tr align='center'>
+        <td>
+          <div class='col-md-2'>
+            <button class='btn btn-warning' style='height: 60px; width: 165px;' id='1'>     
+              CONSOLIDADO DE DESCARGAS
+            </button>
+          </div>
+        </td>
+      </tr>
 
-    </div>
-  
+      <tr align='center'>
+        <td>
+          <div class='col-md-2'>
+            <button class='btn btn-warning' style='height: 60px; width: 165px;' id='2'>
+              CIUDADES NORMALIZADO
+            </button>
+          </div>
+        </td>
+      </tr>
+
+      <tr align='center'>
+        <td>
+          <div class='col-md-2'>
+            <button class='btn btn-warning' style='height: 60px; width: 165px;' id='3'>
+              ASCARD
+            </button>
+          </div>
+        </td>
+      </tr>
+    </table>
   </section>
 </div>
+
 <script src='js/main.js'></script>
 </html>
