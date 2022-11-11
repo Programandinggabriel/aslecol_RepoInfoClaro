@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 28-10-2022 a las 03:19:52
+-- Tiempo de generación: 10-11-2022 a las 04:43:42
 -- Versión del servidor: 5.7.33
 -- Versión de PHP: 7.4.19
 
@@ -20,6 +20,36 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `dataprocclaro`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `acumciudades`
+--
+
+CREATE TABLE `acumciudades` (
+  `idacumciudades` int(11) NOT NULL,
+  `ciudadLlave` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ciudad` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `departamento` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `region` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `indicativos` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ascard`
+--
+
+CREATE TABLE `ascard` (
+  `id_ascard` int(11) NOT NULL,
+  `numerocredito` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `referenciapago` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `marca` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tipo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `producto` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -87,7 +117,7 @@ CREATE TABLE `infofechaxx` (
   `asignacion` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Campo de informe',
   `region` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Campo de informe',
   `indicativo` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Campo de informe',
-  `rango` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Campo de informe',
+  `rango` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Campo de informe',
   `nombrecampaña` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `fechadeasignacion` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -116,6 +146,18 @@ CREATE TABLE `infofechaxx` (
 --
 
 --
+-- Indices de la tabla `acumciudades`
+--
+ALTER TABLE `acumciudades`
+  ADD PRIMARY KEY (`idacumciudades`);
+
+--
+-- Indices de la tabla `ascard`
+--
+ALTER TABLE `ascard`
+  ADD PRIMARY KEY (`id_ascard`);
+
+--
 -- Indices de la tabla `consoldescar`
 --
 ALTER TABLE `consoldescar`
@@ -130,6 +172,18 @@ ALTER TABLE `infofechaxx`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `acumciudades`
+--
+ALTER TABLE `acumciudades`
+  MODIFY `idacumciudades` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `ascard`
+--
+ALTER TABLE `ascard`
+  MODIFY `id_ascard` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `consoldescar`

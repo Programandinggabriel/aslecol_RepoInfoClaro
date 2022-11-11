@@ -35,7 +35,7 @@
     </svg>
   </button>
 
-  <h1 class="row justify-content-center mt-2">Cargar consolidado de descargas</h1>
+  <h1 class="row justify-content-center mt-2" id='header'>Cargar consolidado de descargas</h1>
 
   <div class='row justify-content-center mt-5'>
     <h5>Carga nuevo:</h5>

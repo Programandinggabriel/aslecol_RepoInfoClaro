@@ -1,4 +1,16 @@
+//numFile = variable traida por GET a form_carga_csv.php
 document.addEventListener('DOMContentLoaded', ()=>{
+  switch(numFile){
+    case 1: //consolidado_descargas
+      $('#header').html('Cargar consolidado de descargas');
+      break;
+    case 2: //ciudades_normalizado
+      $('#header').html('Cargar acumulado de ciudades normalizado');
+      break;
+    case 3:
+      $('#header').html('Cargar Ascard');
+  };
+
   f_updt_DOM();
 
   $("#btn_back").click(()=>{window.location.href = '../index.php'});
@@ -37,7 +49,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   
   $('#btn_send_all').click(function(){    
     if(f_valida_nomFiles() == false){
-      alert('¡Verificar los nombres de los archivos!');
+      //alert('¡Verificar los nombres de los archivos!');
       return 0;
     };
     
@@ -64,6 +76,63 @@ function f_updt_DOM () {
   $('#tabla_files tr:last input[type=file]').attr('accept','.csv');
   
   return 0;
+};
+
+/*Funcion verifica que los nombres de archivos de los input
+  sean correctos*/
+function f_valida_nomFiles(){
+  let nombre_file = "";
+  let tipo = ".csv";
+  //numFile = variable traida por GET a form_carga_csv.php
+  switch(numFile){
+    case 1: //consolidado_descargas
+      nombre_file = "consolidado_descargas";
+      break;
+    case 2: //ciudades_normalizado
+      nombre_file = "ciudades_normalizado";
+      break;
+    case 3: //ascard
+      nombre_file = "ascard";
+      break;
+  };
+
+  let nrows_tb = $('#tabla_files tr').length;
+  nrows_tb = nrows_tb - 1; //omitir encabezados
+
+  for(var i = 1 ; i <= nrows_tb ; i++){
+    let inpt_file = $('#tabla_files tr').eq(i).find('#archivo').val();
+    let val_inFile = inpt_file.split('\\');
+    val_inFile = val_inFile[(val_inFile.length - 1)];
+
+    //console.log('ciclo');
+    if(!(val_inFile == (nombre_file + i + tipo))){
+      alert('se esperaba archivo con el nombre: ' + nombre_file + i);
+      return false;
+      continue;
+    };
+    //return true;
+  };
+};
+
+//funcion modifica funcionabilidad del boton enviar todo, luego de cargar archivos
+function f_modifica_Btn_Send (){
+  $('#btn_send_all').off('click');
+  $('#btn_send_all').click(function(){
+    location.reload();
+  });
+  $('#btn_send_all').html('Recargar');
+  $('#btn_send_all').removeClass('btn-success');
+  $('#btn_send_all').addClass('btn-info');
+  $('#btn_send_all svg').remove();
+
+  let icon_updt = "<svg xmlns='http://www.w3.org/2000/svg' width='50' height='40' fill='currentColor' class='bi bi-arrow-repeat' viewBox='0 0 16 16'>";
+  icon_updt += "<path d='M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z'/>";
+  icon_updt += "<path fill-rule='evenodd' d='M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z'/>";
+  icon_updt += "</svg>";
+
+  $('#btn_send_all').append(icon_updt);
+
+  history.pushState(null, document.title, location.href);
 };
 
 //funcion peticion subir archivos a server
@@ -140,73 +209,21 @@ function f_xhrSuccess(){
 };
 */
 
-/*Funcion verifica que los nombres de archivos de los input
-  sean correctos*/
-function f_valida_nomFiles(){
-  let nombre_file = "";
-  let tipo = ".csv";
-  //numFile = variable traida por GET a form_carga_csv.php
-  switch(numFile){
-    case 1: //consolidado_descargas
-      nombre_file = "consolidado_descargas";
-      break;
-    case 2: //ciudades_normalizado
-      nombre_file = "ciudades_normalizado";
-      break;
-  };
-
-  let nrows_tb = $('#tabla_files tr').length;
-  nrows_tb = nrows_tb - 1; //omitir encabezados
-
-  for(var i = 1 ; i <= nrows_tb ; i++){
-    let inpt_file = $('#tabla_files tr').eq(i).find('#archivo').val();
-    let val_inFile = inpt_file.split('\\');
-    val_inFile = val_inFile[(val_inFile.length - 1)];
-
-    if(!(val_inFile == (nombre_file + i + tipo))){
-      return false;
-      continue;
-      //console.log(('no se llama asi:' + nombre_file + i));
-    };
-    return true;
-  };
-
-};
-
-//funcion modifica funcionabilidad del boton enviar todo, luego de cargar archivos
-function f_modifica_Btn_Send (){
-  $('#btn_send_all').off('click');
-  $('#btn_send_all').click(function(){
-    location.reload();
-  });
-  $('#btn_send_all').html('Recargar');
-  $('#btn_send_all').removeClass('btn-success');
-  $('#btn_send_all').addClass('btn-info');
-  $('#btn_send_all svg').remove();
-  
-  let icon_updt = "<svg xmlns='http://www.w3.org/2000/svg' width='50' height='40' fill='currentColor' class='bi bi-arrow-repeat' viewBox='0 0 16 16'>";
-  icon_updt += "<path d='M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z'/>";
-  icon_updt += "<path fill-rule='evenodd' d='M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z'/>";
-  icon_updt += "</svg>";
-
-  $('#btn_send_all').append(icon_updt);
-
-  history.pushState(null, document.title, location.href);
-};
-
 //funcion realiza peticion para cargar la BD
 function f_Carga_Bd(){
   let num_Files = $("#tabla_files tr").length - 1;
   let xhr = new XMLHttpRequest();
   let url = "";
   
-  //numFile = variable traida por GET a form_carga_csv.php
   switch(numFile){
-    case 1:
+    case 1: //descargas 
       url = "../import_to_bd/imprt_descargas.php";
       break;
-    case 2:
+    case 2: //ciudades norm
       url="../import_to_bd/imprt_ciud_norm.php"
+      break;
+    case 3: //ascard
+      url="../import_to_bd/ascard.php"
       break;
   };
 
