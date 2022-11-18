@@ -19,8 +19,6 @@ $query_Trunc = "TRUNCATE TABLE consoldescar;";
 // y convertir a entero
 $query_up  = "UPDATE infofechaxx SET modinitcta = REPLACE(modinitcta, ',', '.')";
 $query_up  = "UPDATE infofechaxx SET modinitcta = ROUND(modinitcta, 0);";
-            
-            //UPDATE infofechaxx SET modinitcta = ROUND(CAST(infofechaxx.modinitcta AS NUMERIC), 0)
 
 //campo ASIGNACIÓN
 $query_up = "UPDATE infofechaxx SET asignacion = 'GEVENUE'";
@@ -81,15 +79,6 @@ $query_up ="UPDATE infofechaxx AS info
             SET info.region = ciudades.region, 
             info.indicativo = ciudades.indicativos
             WHERE length(info.ciudad) != 0;";
-            
-            // postgres
-            /*UPDATE infofechaxx AS info1
-            SET region = ciudades.region,
-            indicativo = ciudades.indicativos
-            FROM acumciudades AS ciudades 
-            WHERE ciudades.ciudadLlave = info1.ciudad AND 
-            length(info1.ciudad) != 0; */
-
 
 $query_up = "UPDATE infofechaxx SET region = 'Sin Region', indicativo = '' 
              WHERE ciudad = '' OR region = 'Sin Region';";
@@ -111,35 +100,18 @@ $query_up = "UPDATE infofechaxx SET rango = (CASE
                 WHEN modinitcta < 300000 THEN 'ENTRE 250 Y 300'
                 WHEN modinitcta >= 300000 THEN 'MAYOR A 300'
             END);";
-           
-           /*UPDATE infofechaxx SET rango = (CASE 
-                            WHEN CAST(infofechaxx.modinitcta AS NUMERIC) < 25000 THEN 'MENOR A 25' 
-                            WHEN CAST(infofechaxx.modinitcta AS NUMERIC) < 30000 THEN 'ENTRE 25 Y 30'
-                            WHEN CAST(infofechaxx.modinitcta AS NUMERIC) < 35000 THEN 'ENTRE 30 Y 35'
-                            WHEN CAST(infofechaxx.modinitcta AS NUMERIC) < 40000 THEN 'ENTRE 35 Y 40'
-                            WHEN CAST(infofechaxx.modinitcta AS NUMERIC) < 45000 THEN 'ENTRE 40 Y 45'
-                            WHEN CAST(infofechaxx.modinitcta AS NUMERIC) < 50000 THEN 'ENTRE 45 Y 50'
-                            WHEN CAST(infofechaxx.modinitcta AS NUMERIC) < 75000 THEN 'ENTRE 50 Y 75'
-                            WHEN CAST(infofechaxx.modinitcta AS NUMERIC) < 100000 THEN 'ENTRE 75 Y 100'
-                            WHEN CAST(infofechaxx.modinitcta AS NUMERIC) < 150000 THEN 'ENTRE 100 Y 150'
-                            WHEN CAST(infofechaxx.modinitcta AS NUMERIC) < 200000 THEN 'ENTRE 150 Y 200'
-                            WHEN CAST(infofechaxx.modinitcta AS NUMERIC) < 250000 THEN 'ENTRE 200 Y 250'
-                            WHEN CAST(infofechaxx.modinitcta AS NUMERIC) < 300000 THEN 'ENTRE 250 Y 300'
-                            WHEN CAST(infofechaxx.modinitcta AS NUMERIC) >= 300000 THEN 'MAYOR A 300'
-                        END);*/
-
 
 //----------------CRUZE CON ascard (ARCHIVO EXCEL)-----------------------------//
 //campo ASCARD 
-
 $query_up = "UPDATE infofechaxx 
              LEFT JOIN ascard ON 
              ascard.numerocredito = infofechaxx.accountcode 
              SET infofechaxx.ascard = ascard.producto";
 
-            /*UPDATE infofechaxx as info
-            SET ascard = ascard.producto
-            FROM ascard
-            WHERE ascard.numerocredito = info.accountcode */
+//campo EXCLUSIÓN
+$query_up  = "UPDATE infofechaxx as info
+              LEFT JOIN exclusiondcto as dcto ON 
+              dcto.cuenta = info.accountcode 
+              SET info.exclusion = dcto.nota";
 
 ?>

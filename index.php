@@ -15,41 +15,64 @@
   
   <title>Inicio</title>
 </head>
-<div class='container'>
+
+<div class='container p-3'>
   <section class='row justify-content-center align-items-center vh-100'>
-    <table class='table text-center' style='width: 1000px;' id='bnts_load_files'>
-      <th>Archivos</th>
-      
-      <tr align='center'>
-        <td>
-          <div class='col-md-2'>
-            <button class='btn btn-warning' style='height: 60px; width: 165px;' id='1'>     
-              CONSOLIDADO DE DESCARGAS
-            </button>
-          </div>
-        </td>
-      </tr>
+    <div style='height:500px; width: 1000px; overflow-y: auto; overflow-x: hidden;'>
+      <table class='table text-center' style='width: 1000px;' id='bnts_load_files'>
+        <th>Archivos</th>
+        
+        <tr align='center'>
+          <td>
+            <div class='col-md-2'>
+              <button class='btn btn-warning' style='height: 60px; width: 165px;' id='1'>     
+                CONSOLIDADO DE DESCARGAS
+              </button>
+            </div>
+          </td>
+        </tr>
 
-      <tr align='center'>
-        <td>
-          <div class='col-md-2'>
-            <button class='btn btn-warning' style='height: 60px; width: 165px;' id='2'>
-              CIUDADES NORMALIZADO
-            </button>
-          </div>
-        </td>
-      </tr>
+        <tr align='center'>
+          <td>
+            <div class='col-md-2'>
+              <button class='btn btn-warning' style='height: 60px; width: 165px;' id='2'>
+                PREPOTENCIAL
+              </button>
+            </div>
+          </td>
+        </tr>
 
-      <tr align='center'>
-        <td>
-          <div class='col-md-2'>
-            <button class='btn btn-warning' style='height: 60px; width: 165px;' id='3'>
-              ASCARD
-            </button>
-          </div>
-        </td>
-      </tr>
-    </table>
+        <tr align='center'>
+          <td>
+            <div class='col-md-2'>
+              <button class='btn btn-warning' style='height: 60px; width: 165px;' id='3'>
+                CIUDADES NORMALIZADO
+              </button>
+            </div>
+          </td>
+        </tr>
+
+        <tr align='center'>
+          <td>
+            <div class='col-md-2'>
+              <button class='btn btn-warning' style='height: 60px; width: 165px;' id='4'>
+                ASCARD
+              </button>
+            </div>
+          </td>
+        </tr>
+
+        <tr align='center'>
+          <td>
+            <div class='col-md-2'>
+              <button class='btn btn-warning' style='height: 60px; width: 165px;' id='5'>
+                EXCLUSIÓN DE DESCUENTO
+              </button>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
   </section>
 </div>
 

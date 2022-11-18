@@ -4,11 +4,15 @@ document.addEventListener('DOMContentLoaded', ()=>{
     case 1: //consolidado_descargas
       $('#header').html('Cargar consolidado de descargas');
       break;
-    case 2: //ciudades_normalizado
-      $('#header').html('Cargar acumulado de ciudades normalizado');
+    case 2: //prepotencial
+      $('#header').html('Cargar prepotencial');
       break;
-    case 3:
+    case 3: //ciudades_normalizado
+      $('#header').html('Cargar ciudades normalizado');
+    case 4: //Ascard
       $('#header').html('Cargar Ascard');
+    case 5: //Exclusion dcto
+      $('#header').html('Cargar exclusión de descuento');
   };
 
   f_updt_DOM();
@@ -65,21 +69,24 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   $('#btn_send_bd').click(function(){
     f_Carga_Bd();
-
   });
 });
 
 
 
-//funcion añade propiedades al DOM
+/** 
+ * funcion añade propiedades al DOM
+*/
 function f_updt_DOM () {
   $('#tabla_files tr:last input[type=file]').attr('accept','.csv');
   
   return 0;
 };
 
-/*Funcion verifica que los nombres de archivos de los input
-  sean correctos*/
+/**
+ * Funcion verifica que los nombres de archivos de los input
+  sean correctos
+*/
 function f_valida_nomFiles(){
   let nombre_file = "";
   let tipo = ".csv";
@@ -88,11 +95,17 @@ function f_valida_nomFiles(){
     case 1: //consolidado_descargas
       nombre_file = "consolidado_descargas";
       break;
-    case 2: //ciudades_normalizado
+    case 2: //prepotencial
+      nombre_file = "prepotencial";
+      break;
+    case 3: //ciudades_normalizado
       nombre_file = "ciudades_normalizado";
       break;
-    case 3: //ascard
+    case 4: //ascard
       nombre_file = "ascard";
+      break;
+    case 5: //ascard
+      nombre_file = "exclusion_dcto";
       break;
   };
 
@@ -114,7 +127,9 @@ function f_valida_nomFiles(){
   };
 };
 
-//funcion modifica funcionabilidad del boton enviar todo, luego de cargar archivos
+/** 
+ * funcion modifica funcionabilidad del boton enviar todo, luego de cargar archivos
+*/
 function f_modifica_Btn_Send (){
   $('#btn_send_all').off('click');
   $('#btn_send_all').click(function(){
@@ -135,10 +150,17 @@ function f_modifica_Btn_Send (){
   history.pushState(null, document.title, location.href);
 };
 
-//funcion peticion subir archivos a server
+
+/**
+ * funcion peticion subir archivos a server
+ * @param id_row -- entero, id de la <tr> html la cual trae respectio archivo y 
+ * elementos para visualizar el progreso
+ */
 var arrxhrs = Array();
 function f_sube_archivo(id_row){
-  let ids = { id_form: ('file_' + id_row), id_bar: ('barra_estado_' + id_row), id_btn_cancel: ('cancel_' + id_row)};
+  let ids = { id_form: ('file_' + id_row), 
+  id_bar: ('barra_estado_' + id_row), 
+  id_btn_cancel: ('cancel_' + id_row)};
   let form =  document.getElementById(ids.id_form);
   let barra_progreso = $('#' + ids.id_bar), span = barra_progreso.children();
   let btn_cancel = $('#' + ids.id_btn_cancel);
@@ -148,8 +170,8 @@ function f_sube_archivo(id_row){
   xhr.upload.addEventListener('progress', (event)=>{  
     let avance = Math.round((event.loaded / event.total) * 100);
     
-      barra_progreso.css('width',avance + '%');
-      span.html(avance + '%');
+    barra_progreso.css('width',avance + '%');
+    span.html(avance + '%');
   } ,false);
   
   //finalizado
@@ -171,7 +193,7 @@ function f_sube_archivo(id_row){
     barra_progreso.removeClass("bg-success");
     barra_progreso.removeClass("bg-primary");
     barra_progreso.addClass("bg-danger");
-    span.html('!Error al cargar¡');
+    span.html('!Error al cargar¡, intente nuevamente');
   },false);
 
   //cancelar
@@ -194,9 +216,10 @@ function f_sube_archivo(id_row){
   return 0;
 };
 
-/*
-//funcion valida peticiones en curso
-function f_xhrSuccess(){
+/**
+ * funcion valida peticiones en curso
+ **/
+/*function f_xhrSuccess(){
   let success = true;
 
   arrxhrs.forEach((xhr)=>{
@@ -209,25 +232,120 @@ function f_xhrSuccess(){
 };
 */
 
-//funcion realiza peticion para cargar la BD
+/** 
+ * funcion realiza peticion para cargar la BD
+*/
 function f_Carga_Bd(){
   let num_Files = $("#tabla_files tr").length - 1;
   let xhr = new XMLHttpRequest();
   let url = "";
-  
+
+  $('#btn_send_bd').off('click');
+
+  //numFile = variable traida por GET a form_carga_csv.php
+  //caseo numFile, para obtener la URL para hacer la respectiva petición
   switch(numFile){
-    case 1: //descargas 
-      url = "../import_to_bd/imprt_descargas.php";
+    case 1: //consolidado_descargas
+      url = "../import_to_bd/import_descargas.php";
       break;
-    case 2: //ciudades norm
-      url="../import_to_bd/imprt_ciud_norm.php"
+    case 2: //prepotencial
+      url = "../import_to_bd/import_prepotencial.php";
       break;
-    case 3: //ascard
-      url="../import_to_bd/ascard.php"
+    case 3: //ciudades_normalizado
+      url = "../import_to_bd/import_ciudadesnorm.php";
+      break;
+    case 4: //ascard
+      url = "../import_to_bd/import_ascard.php";
+      break;
+    case 5: //exlcusion_dcto
+      url = "../import_to_bd/import_exclusiondcto.php";
       break;
   };
+
+  xhr.addEventListener('load', ()=>{
+    clearInterval(timer);
+    if(xhr.responseText === '1'){
+      let oHeader = $('#progress_insert h2'),
+      barra_progreso = $('#progBar_insert'), 
+      span = barra_progreso.children();
+      
+      barra_progreso.css('width', '100%');
+      span.html('100%');
+      oHeader.html('Cargado con éxito');
+      alert('!Cargado con éxito¡');
+    }else{
+      alert('Error al cargar los datos del archivo...');
+      alert(xhr.responseText);
+      $('#btn_send_bd').click(function(){
+        f_Carga_Bd();
+      });
+    };
+  },false);
 
   xhr.open('GET', url + '?num_Files=' + num_Files);
   xhr.send();
 
+  //añade barra de carga para visualizar progreso xhr
+  let html = 
+  "<h2 class='row justify-content-center mt-5'>Progreso de carga...</h2>" + 
+
+  "<div class='row justify-content-center'>" + 
+    "<div class='progress' style='height:30px; width: 60%;'>" + 
+      "<div class='progress-bar bg-info' id='progBar_insert'>" + 
+        "<span style='font-size:20px;'></span>" + 
+      "</div>" + 
+    "</div>" +
+  "</div>";
+    
+  $('#progress_insert').append(html);
+
+  //asigna llamada a funcion para reflejar progresso
+  let timer = 0;
+  timer = setInterval(f_checkProgress,5000);
+};
+
+/** 
+ * funcion muestra progreso de los INSERT a la BD 
+ * Alimentada por archivo php que lee el progreso escrito en un txt por el archivo php
+ * que realiza los INSERT 
+*/
+function f_checkProgress(){
+  let xhr = new XMLHttpRequest();
+
+  switch(numFile){
+    case 1: //descargas 
+      url = "../import_to_bd/progress/check_descargas.php";
+      break;
+    case 2: //prepotencial
+      url="";
+      break;
+    case 3: //ciudades normalizado
+      url="../import_to_bd/progress/check_ciudadesnorm.php";;
+      break;
+    case 4: //ascard
+      url = "../import_to_bd/progress/check_ascard.php";
+      break;
+    case 5: //exlcusion_dcto
+      url = "../import_to_bd/progress/check_exclusiondcto.php";
+      break;
+  };
+
+  xhr.addEventListener('load',()=>{
+    if(xhr.status === 200){
+      if(xhr.responseText.length > 0){
+        let oHeader = $('#progress_insert h2'),
+        barra_progreso = $('#progBar_insert'), 
+        span = barra_progreso.children();
+        let sResponse = xhr.responseText.split(',');
+        let iProgreso = sResponse[0];
+
+        barra_progreso.css('width', iProgreso + '%');
+        span.html(iProgreso + '%');
+        oHeader.html('Progreso de carga para, Archivo ' + sResponse[1])
+      };
+    };
+  },false);
+
+  xhr.open("POST", url);
+  xhr.send();
 };
