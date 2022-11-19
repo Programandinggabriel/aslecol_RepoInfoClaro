@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 10-11-2022 a las 04:43:42
+-- Tiempo de generación: 19-11-2022 a las 20:32:40
 -- Versión del servidor: 5.7.33
 -- Versión de PHP: 7.4.19
 
@@ -92,6 +92,19 @@ CREATE TABLE `consoldescar` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `exclusiondcto`
+--
+
+CREATE TABLE `exclusiondcto` (
+  `id_exclusiondcto` int(11) NOT NULL,
+  `cuenta` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `segmento` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nota` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `infofechaxx`
 --
 
@@ -164,6 +177,12 @@ ALTER TABLE `consoldescar`
   ADD PRIMARY KEY (`id_consoldescar`);
 
 --
+-- Indices de la tabla `exclusiondcto`
+--
+ALTER TABLE `exclusiondcto`
+  ADD PRIMARY KEY (`id_exclusiondcto`);
+
+--
 -- Indices de la tabla `infofechaxx`
 --
 ALTER TABLE `infofechaxx`
@@ -190,6 +209,12 @@ ALTER TABLE `ascard`
 --
 ALTER TABLE `consoldescar`
   MODIFY `id_consoldescar` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `exclusiondcto`
+--
+ALTER TABLE `exclusiondcto`
+  MODIFY `id_exclusiondcto` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `infofechaxx`
