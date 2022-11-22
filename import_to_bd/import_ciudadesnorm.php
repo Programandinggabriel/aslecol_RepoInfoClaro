@@ -6,7 +6,8 @@ $bd = obtenerBD();
 #array con las columnas necesarias
 $aColumnasReq = array(1,2,3,4,5);
 $aFilaCompleta = []; 
-$sProgressFile = "./progress/values_ciudadesnorm.txt";#archivo para informar progress
+$sProgressFile = "./progress/values_ciudadesnorm.txt";
+$oFileProgress = fopen($sRutaProgFile,'w'); //archivo para informar progress
 for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
     # Preparar base de datos para que los inserts sean rápidos
     $bd->beginTransaction();
@@ -18,7 +19,7 @@ for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
     $sentencia = $bd->prepare("INSERT INTO acumciudades (".$sCampos.") 
                                VALUES (?, ?, ?, ?, ?)");
     
-    $sRutaCsv = '../csv/ciudades_normalizado'. $iCountFile .'.csv';
+    $sRutaCsv = '../csv/ciudadesnorm'. $iCountFile .'.csv';
     $iTotalLineas = f_cuenta_lineasCsv($sRutaCsv);
     $oFileCsv = fopen($sRutaCsv,'r');
     f_putTxt_progress(0,$iCountFile);

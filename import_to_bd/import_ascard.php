@@ -4,9 +4,10 @@ require_once "../bd_conect/bd.php";
 $bd = obtenerBD();
 
 #array con las columnas necesarias
-$sProgressFile = "./progress/values_ascard.txt";#archivo para informar progress 
 $aColumnasReq = array(1,2,3,4,5);
 $aFilaCompleta = [];
+$sRutaProgFile = "./progress/values_ascard.txt";
+$oFileProgress = fopen($sRutaProgFile,'w'); //archivo para informar progress
 for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
     # Preparar base de datos para que los inserts sean rápidos
     $bd->beginTransaction();
@@ -51,7 +52,7 @@ for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
     $bd->commit();
 };
 echo "1";
-file_put_contents($sProgressFile, "");
+file_put_contents($sRutaProgFile, "");
 
 
 /** 
@@ -75,9 +76,9 @@ function f_cuenta_lineasCsv($sRutaCsv){
  * @param type $iCountFile -- Valor de hoja en curso
 */
 function f_putTxt_progress($iProgress, $iCountFile){
-    global $sProgressFile;
+    global $sRutaProgFile;
 
-    file_put_contents($sProgressFile,($iProgress . ',' . $iCountFile));
+    file_put_contents($sRutaProgFile,($iProgress . ',' . $iCountFile));
 };
 
 ?>

@@ -6,7 +6,8 @@ $bd = obtenerBD();
 #array con las columnas necesarias
 $aColumnasReq = array(1, 2, 3, 32, 4, 9, 13, 12, 15, 19, 20, 21, 22, 23, 25, 27, 29, 33, 34, 17, 5, 6, 7, 48, 47, 50, 45, 26);
 $aFilaCompleta = []; 
-$sProgressFile = "./progress/values_descargas.txt";#archivo para informar progress
+$sRutaProgFile = "./progress/values_descargas.txt";
+$oFileProgress = fopen($sRutaProgFile,'w'); //archivo para informar progress
 for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
     # Preparar base de datos para que los inserts sean rápidos
     $bd->beginTransaction();
@@ -20,7 +21,7 @@ for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
     $oSentencia = $bd->prepare("INSERT INTO consoldescar (".$campos.") 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
-    $sRutaCsv = '../csv/consolidado_descargas'. $iCountFile .'.csv';
+    $sRutaCsv = '../csv/descargas'. $iCountFile .'.csv';
     $iTotalLineas = f_cuenta_lineasCsv($sRutaCsv);
     $oFileCsv = fopen($sRutaCsv,'r');
     f_putTxt_progress(0,$iCountFile);
@@ -53,7 +54,7 @@ for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
     $bd->commit();
 };
 echo "1";
-file_put_contents($sProgressFile, "");
+unlink($sRutaProgFile);
 
 //Funcion cuenta registros del csv
 /** 
@@ -76,8 +77,8 @@ function f_cuenta_lineasCsv($sRutaCsv){
  * @param type $iCountFile -- Valor de hoja en curso
 */
 function f_putTxt_progress($iProgress, $iCountFile){
-    global $sProgressFile;
+    global $sRutaProgFile;
 
-    file_put_contents($sProgressFile,($iProgress . ',' . $iCountFile));
+    file_put_contents($sRutaProgFile,($iProgress . ',' . $iCountFile));
 };
 ?>

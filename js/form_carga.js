@@ -1,4 +1,3 @@
-//numFile = variable traida por GET a form_carga_csv.php
 document.addEventListener('DOMContentLoaded', ()=>{
   switch(numFile){
     case 1: //consolidado_descargas
@@ -60,19 +59,72 @@ document.addEventListener('DOMContentLoaded', ()=>{
     let nrows_tb = $('#tabla_files tr').length;
     nrows_tb = nrows_tb - 1; //omitir encabezados
     
-    for( var i = 1 ; i <= nrows_tb ; i++){
-      f_sube_archivo(i);
-    };
-
-    f_modifica_Btn_Send();
+    Swal.fire({
+      title: '¿Enviar los archivos seleccionados?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '!Si, enviar¡'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        
+        for( var i = 1 ; i <= nrows_tb ; i++){
+          f_sube_archivo(i);
+        };
+    
+        f_modifica_Btn_Send();
+      };
+    })
   });
 
   $('#btn_send_bd').click(function(){
     f_Carga_Bd();
+
+    //añade barra de carga para visualizar progreso xhr
+    let html = 
+    "<h2 class='row justify-content-center mt-5'>Progreso de carga...</h2>" + 
+
+    "<div class='row justify-content-center'>" + 
+    "<div class='progress' style='height:30px; width: 60%;'>" + 
+    "<div class='progress-bar bg-info' id='progBar_insert'>" + 
+      "<span style='font-size:20px;'></span>" + 
+    "</div>" + 
+    "</div>" +
+    "</div>";
+
+    if($('#progress_insert div').length === 0){  
+      $('#progress_insert').append(html);
+    };
   });
 });
 
 
+
+/** 
+ * Obtener archivo seleccionado en el index
+*/
+function f_getFileSelected(){
+  //numFile = variable traida por GET a form_carga_csv.php
+  switch(numFile){
+    case 1: //consolidado_descargas
+      nombre_file = "descargas";
+      break;
+    case 2: //prepotencial
+      nombre_file = "prepotencial";
+      break;
+    case 3: //ciudades_normalizado
+      nombre_file = "ciudadesnorm";
+      break;
+    case 4: //ascard
+      nombre_file = "ascard";
+      break;
+    case 5: //ascard
+      nombre_file = "exclusiondcto";
+      break;
+  };
+  return nombre_file;
+};
 
 /** 
  * funcion añade propiedades al DOM
@@ -90,24 +142,8 @@ function f_updt_DOM () {
 function f_valida_nomFiles(){
   let nombre_file = "";
   let tipo = ".csv";
-  //numFile = variable traida por GET a form_carga_csv.php
-  switch(numFile){
-    case 1: //consolidado_descargas
-      nombre_file = "consolidado_descargas";
-      break;
-    case 2: //prepotencial
-      nombre_file = "prepotencial";
-      break;
-    case 3: //ciudades_normalizado
-      nombre_file = "ciudades_normalizado";
-      break;
-    case 4: //ascard
-      nombre_file = "ascard";
-      break;
-    case 5: //ascard
-      nombre_file = "exclusion_dcto";
-      break;
-  };
+
+  nombre_file = f_getFileSelected();
 
   let nrows_tb = $('#tabla_files tr').length;
   nrows_tb = nrows_tb - 1; //omitir encabezados
@@ -119,7 +155,14 @@ function f_valida_nomFiles(){
 
     //console.log('ciclo');
     if(!(val_inFile == (nombre_file + i + tipo))){
-      alert('se esperaba archivo con el nombre: ' + nombre_file + i);
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: ('Inserte el archivo formato (.csv) con el siguiente nombre: '),
+        text:  (nombre_file + i),
+        showConfirmButton: false,
+        timer: 3000
+      });
       return false;
       continue;
     };
@@ -153,7 +196,7 @@ function f_modifica_Btn_Send (){
 
 /**
  * funcion peticion subir archivos a server
- * @param id_row -- entero, id de la <tr> html la cual trae respectio archivo y 
+ * @param id_row -- entero, id de la <tr> html la cual trae respectivo archivo y 
  * elementos para visualizar el progreso
  */
 var arrxhrs = Array();
@@ -242,26 +285,7 @@ function f_Carga_Bd(){
 
   $('#btn_send_bd').off('click');
 
-  //numFile = variable traida por GET a form_carga_csv.php
-  //caseo numFile, para obtener la URL para hacer la respectiva petición
-  switch(numFile){
-    case 1: //consolidado_descargas
-      url = "../import_to_bd/import_descargas.php";
-      break;
-    case 2: //prepotencial
-      url = "../import_to_bd/import_prepotencial.php";
-      break;
-    case 3: //ciudades_normalizado
-      url = "../import_to_bd/import_ciudadesnorm.php";
-      break;
-    case 4: //ascard
-      url = "../import_to_bd/import_ascard.php";
-      break;
-    case 5: //exlcusion_dcto
-      url = "../import_to_bd/import_exclusiondcto.php";
-      break;
-  };
-
+  url = "../import_to_bd/import_" + f_getFileSelected() + ".php";
   xhr.addEventListener('load', ()=>{
     clearInterval(timer);
     if(xhr.responseText === '1'){
@@ -276,6 +300,7 @@ function f_Carga_Bd(){
     }else{
       alert('Error al cargar los datos del archivo...');
       alert(xhr.responseText);
+      $('#progress_insert ')
       $('#btn_send_bd').click(function(){
         f_Carga_Bd();
       });
@@ -284,20 +309,6 @@ function f_Carga_Bd(){
 
   xhr.open('GET', url + '?num_Files=' + num_Files);
   xhr.send();
-
-  //añade barra de carga para visualizar progreso xhr
-  let html = 
-  "<h2 class='row justify-content-center mt-5'>Progreso de carga...</h2>" + 
-
-  "<div class='row justify-content-center'>" + 
-    "<div class='progress' style='height:30px; width: 60%;'>" + 
-      "<div class='progress-bar bg-info' id='progBar_insert'>" + 
-        "<span style='font-size:20px;'></span>" + 
-      "</div>" + 
-    "</div>" +
-  "</div>";
-    
-  $('#progress_insert').append(html);
 
   //asigna llamada a funcion para reflejar progresso
   let timer = 0;
@@ -312,24 +323,7 @@ function f_Carga_Bd(){
 function f_checkProgress(){
   let xhr = new XMLHttpRequest();
 
-  switch(numFile){
-    case 1: //descargas 
-      url = "../import_to_bd/progress/check_descargas.php";
-      break;
-    case 2: //prepotencial
-      url="";
-      break;
-    case 3: //ciudades normalizado
-      url="../import_to_bd/progress/check_ciudadesnorm.php";;
-      break;
-    case 4: //ascard
-      url = "../import_to_bd/progress/check_ascard.php";
-      break;
-    case 5: //exlcusion_dcto
-      url = "../import_to_bd/progress/check_exclusiondcto.php";
-      break;
-  };
-
+  url = "../import_to_bd/progress/check_" + f_getFileSelected() + ".php";   
   xhr.addEventListener('load',()=>{
     if(xhr.status === 200){
       if(xhr.responseText.length > 0){
@@ -341,7 +335,7 @@ function f_checkProgress(){
 
         barra_progreso.css('width', iProgreso + '%');
         span.html(iProgreso + '%');
-        oHeader.html('Progreso de carga para, Archivo ' + sResponse[1])
+        oHeader.html('Estado de carga, Archivo ' + sResponse[1])
       };
     };
   },false);

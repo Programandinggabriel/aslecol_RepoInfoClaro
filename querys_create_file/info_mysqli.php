@@ -6,12 +6,20 @@ require_once '../bd_conect/bd.php';
 
 $bd = obtenerBD();
 
+ob_start();
 $query_insert = "INSERT INTO infofechaxx (id_infofechaxx, numerodecliente, accountcode, crmorigen, 
                 numeroreferenciadepago, edaddedeuda, modinitcta, debtageinicial, nombrecampaña, fechadeasignacion, 
                 email, telefono1, telefono2, telefono3, telefono4, documento, ciudad, nombredelcliente, min, plan, 
                 direccioncompleta, potencialmark, prepotencialmark, writeoffmark, refinanciedmark, customertypeid, 
                 activeslines, preciosubscripcion, accstsname) 
                 SELECT * FROM consoldescar;";
+
+echo "Iniciando...";
+ob_flush();
+$bd->query($query_insert);
+ob_start();
+echo "fin...";
+
 
 $query_Trunc = "TRUNCATE TABLE consoldescar;";
 
@@ -113,5 +121,6 @@ $query_up  = "UPDATE infofechaxx as info
               LEFT JOIN exclusiondcto as dcto ON 
               dcto.cuenta = info.accountcode 
               SET info.exclusion = dcto.nota";
+
 
 ?>
