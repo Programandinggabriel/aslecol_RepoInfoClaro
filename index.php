@@ -79,7 +79,8 @@
 
     <div class='col'>
       <div class='row justify-content-center'>
-        <button class='btn btn-success' style='width: 400px; height: 50px;' id='start'>
+      <h4 class='text-center' id='status_file'>Crear archivo</h4>  
+      <button class='btn btn-success' style='width: 400px; height: 50px;' id='start'>
           INICIAR PROCEDIMIENTO
           <svg xmlns="http://www.w3.org/2000/svg" width="60" height="40" fill="currentColor" class="bi bi-file-earmark-excel" viewBox="0 0 16 16">
             <path d="M5.884 6.68a.5.5 0 1 0-.768.64L7.349 10l-2.233 2.68a.5.5 0 0 0 .768.64L8 10.781l2.116 2.54a.5.5 0 0 0 .768-.641L8.651 10l2.233-2.68a.5.5 0 0 0-.768-.64L8 9.219l-2.116-2.54z"/>
