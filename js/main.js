@@ -11,8 +11,11 @@ document.addEventListener('DOMContentLoaded',()=>{
 
         xml.addEventListener('load', ()=>{
             clearInterval(timer);
+            //funcion peticion crear excel
+
         }, false)
 
+        //realizar querys en la base datos
         xml.open('POST', './querys_create_file/info_mysqli.php');
         xml.send();
 
@@ -72,3 +75,7 @@ function f_checkProgress(){
     xml.open('POST','./querys_create_file/check_status.php');
     xml.send();
 };
+
+/**
+ * 
+ */

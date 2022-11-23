@@ -53,7 +53,7 @@ for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
 };
 echo "1";
 unlink($sRutaProgFile);
-//file_put_contents($sRutaProgFile, "");
+
 
 //Funcion cuenta registros del csv
 /** 
