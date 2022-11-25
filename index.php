@@ -20,57 +20,83 @@
   <section class='row justify-content-center align-items-center vh-100'>
     <div class='col'>
       <div style='height:500px; width: 800px; overflow-y: auto; overflow-x: hidden;'>
-        <table class='table text-center' style='width: 800px;' id='bnts_load_files'>
-          <th>Archivos</th>
-          <th>Fecha última carga</th>
+        <table class='table text-center' style='width: 700px;' id='load_files'>
+          <th>Archivo</th>
+          <th>Acción</th>
+          <th>Fecha actualización</th>
 
-          <tr align='center'>
+          <tr align='center' id='1'>
             <td>
-              <div class='col-md-2'>
-                <button class='btn btn-warning' style='height: 60px; width: 165px;' id='1'>     
-                  CONSOLIDADO DE DESCARGAS
-                </button>
-              </div>
+              <strong>CONSOLIDADO DE DESCARGAS</strong>
+            </td>  
+            
+            <td>  
+              <button class='btn btn-success' style='height: 40px; width: 100px;' name='btn_update' id='1'>
+                Actualizar
+              </button>
+              <button class='btn btn-danger mx-2' style='height: 40px; width: 100px;' name='btn_delete' id = '1'> 
+                Eliminar
+              </button>
             </td>
           </tr>
 
-          <tr align='center'>
+          <tr align='center' id='2'>
             <td>
-              <div class='col-md-2'>
-                <button class='btn btn-warning' style='height: 60px; width: 165px;' id='2'>
-                  PREPOTENCIAL
-                </button>
-              </div>
+              <strong>PREPOTENCIAL</strong>
+            </td>  
+            
+            <td>  
+              <button class='btn btn-success' style='height: 40px; width: 100px;' name='btn_update' id='2'>
+                Actualizar
+              </button>
+              <button class='btn btn-danger mx-2' style='height: 40px; width: 100px;' name='btn_delete' id='2'>
+                Eliminar
+              </button>
             </td>
           </tr>
 
-          <tr align='center'>
+          <tr align='center' id='3'>
             <td>
-              <div class='col-md-2'>
-                <button class='btn btn-warning' style='height: 60px; width: 165px;' id='3'>
-                  CIUDADES NORMALIZADO
-                </button>
-              </div>
+              <strong>CIUDADES NORMALIZADO</strong>
+            </td>  
+            
+            <td>  
+              <button class='btn btn-success' style='height: 40px; width: 100px;' name='btn_update' id='3'>
+                Actualizar
+              </button>
+              <button class='btn btn-danger mx-2' style='height: 40px; width: 100px;' name='btn_delete' id='3'>
+                Eliminar
+              </button>
             </td>
           </tr>
 
-          <tr align='center'>
+          <tr align='center' id='4'>
             <td>
-              <div class='col-md-2'>
-                <button class='btn btn-warning' style='height: 60px; width: 165px;' id='4'>
-                  ASCARD
-                </button>
-              </div>
+              <strong>ASCARD</strong>
+            </td>  
+            
+            <td>  
+              <button class='btn btn-success' style='height: 40px; width: 100px;' name='btn_update' id='4'>
+                Actualizar
+              </button>
+              <button class='btn btn-danger mx-2' style='height: 40px; width: 100px;' name='btn_delete' id='4'>
+                Eliminar
+              </button>
             </td>
           </tr>
 
-          <tr align='center'>
+          <tr align='center' id = '5'>
             <td>
-              <div class='col-md-2'>
-                <button class='btn btn-warning' style='height: 60px; width: 165px;' id='5'>
-                  EXCLUSIÓN DE DESCUENTO
-                </button>
-              </div>
+              <strong>EXCLUSIÓN DE DESCUENTO</strong>
+            </td>  
+            
+            <td>  
+              <button class='btn btn-success' style='height: 40px; width: 100px;' name='btn_update' id='5'>
+                Actualizar
+              </button>
+              <button class='btn btn-danger mx-2' style='height: 40px; width: 100px;' name='btn_delete' id='1'>
+                Eliminar
+              </button>
             </td>
           </tr>
         </table>

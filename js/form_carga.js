@@ -18,35 +18,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   $("#btn_back").click(()=>{window.location.href = '../index.php'});
 
-  var btn_add = document.getElementById('btn_add_file');
-  var id_row = 1;
+  let btn_add = document.getElementById('btn_add_file');
   btn_add.addEventListener('click', ()=>{
-    id_row++;
-    let ids = { id_form: ('file_' + id_row), id_bar: ('barra_estado_' + id_row), id_btn_cancel: ('cancel_' + id_row)};
-    let fila = 
-    "<tr id='"+ id_row +"'>" +
-      "<td class='p-2' style='width: 400px;'>" + 
-        "<form method='POST' id='"+ ids.id_form +"'>" +
-          "<input class='w-100' type='file' name='archivo' id='archivo' 'required'>" +
-        "</form>" +
-      "</td>" +
-
-      "<td style='width: 670px;'>" + 
-        "<div class='progress' style='height:30px;'>" + 
-          "<div class='progress-bar bg-success' id='"+ ids.id_bar +"'>" + 
-            "<span style='font-size:20px;'></span>" + 
-          "</div>" + 
-        "</div>" +
-      "</td>" +
-
-      "<td class='w-25 p-2'>" + 
-        /*"<button class='btn btn-success' type='button' id ='"+ id_row +"' name='send'> Enviar </button>" +*/
-        "<button class='btn btn-danger mx-1' type='button' id='" + ids.id_btn_cancel +"'> Cancelar </button>" +
-        /*"<button class='btn btn-primary'>Envía a base</button>" +*/
-      "</td>" + 
-    "</tr>";
-    
-    $('#tabla_files tbody').append(fila);
+    f_append_row();
     f_updt_DOM();
   });
   
@@ -81,7 +55,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   $('#btn_send_bd').click(function(){
     f_Carga_Bd();
 
-    //añade barra de carga para visualizar progreso xhr
+    //añade barra de carga para visualizar progreso de insert mediante petición
     let html = 
     "<h2 class='row justify-content-center mt-5'>Progreso de carga...</h2>" + 
 
@@ -130,9 +104,45 @@ function f_getFileSelected(){
  * funcion añade propiedades al DOM
 */
 function f_updt_DOM () {
+  
   $('#tabla_files tr:last input[type=file]').attr('accept','.csv');
   
   return 0;
+};
+
+/**
+ * Funcion agrega nueva fila a el documento para un nuevo archivo input file
+ * Retorno número de filas en la tabla 
+ */
+function f_append_row(id_row){
+
+  let ids = { id_form: ('file_' + id_row), id_bar: ('barra_estado_' + id_row), id_btn_cancel: ('cancel_' + id_row)};
+  let fila = 
+  "<tr id='"+ id_row +"'>" +
+    "<td class='p-2' style='width: 400px;'>" + 
+      "<form method='POST' id='"+ ids.id_form +"'>" +
+        "<input class='w-100' type='file' name='archivo' id='archivo' 'required'>" +
+      "</form>" +
+    "</td>" +
+
+    "<td style='width: 670px;'>" + 
+      "<div class='progress' style='height:30px;'>" + 
+        "<div class='progress-bar bg-success' id='"+ ids.id_bar +"'>" + 
+          "<span style='font-size:20px;'></span>" + 
+        "</div>" + 
+      "</div>" +
+    "</td>" +
+
+    "<td class='w-25 p-2'>" + 
+      /*"<button class='btn btn-success' type='button' id ='"+ id_row +"' name='send'> Enviar </button>" +*/
+      "<button class='btn btn-danger mx-1' type='button' id='" + ids.id_btn_cancel +"'> Cancelar </button>" +
+      /*"<button class='btn btn-primary'>Envía a base</button>" +*/
+    "</td>" + 
+  "</tr>";
+  
+  $('#tabla_files tbody').append(fila);
+
+  return ($('#tabla_files tr').length);
 };
 
 /**
@@ -140,6 +150,7 @@ function f_updt_DOM () {
   sean correctos
 */
 function f_valida_nomFiles(){
+  
   let nombre_file = "";
   let tipo = ".csv";
 
@@ -174,6 +185,7 @@ function f_valida_nomFiles(){
  * funcion modifica funcionabilidad del boton enviar todo, luego de cargar archivos
 */
 function f_modifica_Btn_Send (){
+ 
   $('#btn_send_all').off('click');
   $('#btn_send_all').click(function(){
     location.reload();
@@ -201,6 +213,7 @@ function f_modifica_Btn_Send (){
  */
 var arrxhrs = Array();
 function f_sube_archivo(id_row){
+  
   let ids = { id_form: ('file_' + id_row), 
   id_bar: ('barra_estado_' + id_row), 
   id_btn_cancel: ('cancel_' + id_row)};
@@ -263,6 +276,7 @@ function f_sube_archivo(id_row){
  * funcion valida peticiones en curso
  **/
 /*function f_xhrSuccess(){
+  
   let success = true;
 
   arrxhrs.forEach((xhr)=>{
@@ -279,6 +293,7 @@ function f_sube_archivo(id_row){
  * funcion realiza peticion para cargar la BD
 */
 function f_Carga_Bd(){
+  
   let num_Files = $("#tabla_files tr").length - 1;
   let xhr = new XMLHttpRequest();
   let url = "";
@@ -321,6 +336,7 @@ function f_Carga_Bd(){
  * que realiza los INSERT 
 */
 function f_checkProgress(){
+  
   let xhr = new XMLHttpRequest();
 
   url = "../import_to_bd/progress/check_" + f_getFileSelected() + ".php";   
