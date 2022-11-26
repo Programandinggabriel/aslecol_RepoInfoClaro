@@ -53,6 +53,7 @@ for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
 };
 echo "1";
 file_put_contents($sProgressFile, "");
+f_SetDateTime();
 
 
 //Funcion cuenta registros del csv
@@ -79,5 +80,29 @@ function f_putTxt_progress($iProgress, $iCountFile){
     global $sProgressFile;
 
     file_put_contents($sProgressFile,($iProgress . ',' . $iCountFile));
+};
+
+/**
+ * funcion guarda registro de ultimo carge de información
+ */
+function f_SetDateTime(){
+    global $oBd;
+    $sQuerySelect = "SELECT COUNT(id_fechcargarch) As cuenta FROM fechcargarch 
+    WHERE table_name = 'acumciudades'";
+
+    $sQuerySelect = $oBd->prepare($sQuerySelect);
+    $sQuerySelect->execute();
+    $aCount = $sQuerySelect->fetch(PDO::FETCH_BOTH);
+    
+    date_default_timezone_set("America/Mexico_City");
+    $cDate = "'".date('Y-m-d H:i:s')."'";
+
+    if($aCount['cuenta'] === 0){
+        $sQueryInsert = "INSERT INTO fechcargarch (table_name, fecha_carga) VALUES ('acumciudades', ".$cDate."')";
+        $oBd->query($sQueryInsert);
+    }else{
+        $sQueryUpdate = "UPDATE fechcargarch SET fecha_carga = " . $cDate;
+        $oBd->query($sQueryUpdate);
+    };
 };
 ?>

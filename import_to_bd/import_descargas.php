@@ -1,8 +1,10 @@
 <?php 
 require_once "../bd_conect/bd.php";
 
-$bd = obtenerBD();
+$oBd = obtenerBD();
 
+f_SetDateTime();
+die();
 #array con las columnas necesarias
 $aColumnasReq = array(1, 2, 3, 32, 4, 9, 13, 12, 15, 19, 20, 21, 22, 23, 25, 27, 29, 33, 34, 17, 5, 6, 7, 48, 47, 50, 45, 26);
 $aFilaCompleta = []; 
@@ -10,7 +12,7 @@ $sRutaProgFile = "./progress/values_descargas.txt";
 $oFileProgress = fopen($sRutaProgFile,'w'); //archivo para informar progress
 for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
     # Preparar base de datos para que los inserts sean rápidos
-    $bd->beginTransaction();
+    $oBd->beginTransaction();
 
     # Preparar oSentencia de campos
     $campos = "numerodecliente, accountcode, crmorigen, numeroreferenciadepago, edaddedeuda, modinitcta, debtageinicial, nombrecampaña, 
@@ -18,7 +20,7 @@ for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
     potencialmark, prepotencialmark, writeoffmark, refinanciedmark, customertypeid, activeslines, preciosubscripcion, accstsname";
 
     /*$campos = "numerodecliente";*/
-    $oSentencia = $bd->prepare("INSERT INTO consoldescar (".$campos.") 
+    $oSentencia = $oBd->prepare("INSERT INTO consoldescar (".$campos.") 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
     $sRutaCsv = '../csv/descargas'. $iCountFile .'.csv';
@@ -51,10 +53,12 @@ for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
         };
     };
     fclose($oFileCsv);
-    $bd->commit();
+    $oBd->commit();
 };
 echo "1";
 unlink($sRutaProgFile);
+f_SetDateTime();
+
 
 //Funcion cuenta registros del csv
 /** 
@@ -80,5 +84,30 @@ function f_putTxt_progress($iProgress, $iCountFile){
     global $sRutaProgFile;
 
     file_put_contents($sRutaProgFile,($iProgress . ',' . $iCountFile));
+};
+
+/**
+ * funcion guarda registro de ultimo carge de información
+ */
+function f_SetDateTime(){
+    global $oBd;
+    $sQuerySelect = "SELECT COUNT(id_fechcargarch) As cuenta FROM fechcargarch 
+    WHERE table_name = 'consoldescar'";
+
+    $sQuerySelect = $oBd->prepare($sQuerySelect);
+    $sQuerySelect->execute();
+    $aCount = $sQuerySelect->fetch(PDO::FETCH_BOTH);
+    
+    date_default_timezone_set("America/Mexico_City");
+    $cDate = "'".date('Y-m-d H:i:s')."'";
+
+    if($aCount['cuenta'] === 0){
+        $sQueryInsert = "INSERT INTO fechcargarch (table_name, fecha_carga) VALUES ('consoldescar', ".$cDate."')";
+        $oBd->query($sQueryInsert);
+    }else{
+        $sQueryUpdate = "UPDATE fechcargarch SET fecha_carga = " . $cDate;
+        $oBd->query($sQueryUpdate);
+    };
+
 };
 ?>

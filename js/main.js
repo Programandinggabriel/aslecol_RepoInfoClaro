@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         
         Swal.fire({
             title: '!ATENCIÓN¡',
-            text: "Al eliminar todos los registros, todo el contenido de este archivo no se tendra en cuenta",
+            text: "Al eliminar todos los registros, todo el contenido de este archivo no se tendra en cuenta para el archivo",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

@@ -1,10 +1,10 @@
 <?php 
     include_once('../bd_conect/bd.php');
     
-    $bd = obtenerBD();
+    $oBd = obtenerBD();
     $sQueryDelete = "DELETE FROM consoldescar";
     
-    $iRowsAffected = $bd->exec($sQueryDelete);
+    $iRowsAffected = $oBd->exec($sQueryDelete);
 
     echo $iRowsAffected;
 ?>
