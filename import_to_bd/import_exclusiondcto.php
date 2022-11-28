@@ -87,7 +87,7 @@ function f_putTxt_progress($iProgress, $iCountFile){
 function f_SetDateTime(){
     global $oBd;
     $sQuerySelect = "SELECT COUNT(id_fechcargarch) As cuenta FROM fechcargarch 
-    WHERE table_name = 'exclusiondcto'";
+    WHERE table_name = 'ascard'";
 
     $sQuerySelect = $oBd->prepare($sQuerySelect);
     $sQuerySelect->execute();
@@ -96,8 +96,14 @@ function f_SetDateTime(){
     date_default_timezone_set("America/Mexico_City");
     $cDate = "'".date('Y-m-d H:i:s')."'";
 
+    $sQuerySelect = "SELECT COUNT(*) As cuenta_rows FROM ascard";
+    $sQuerySelect = $oBd->prepare($sQuerySelect);
+    $sQuerySelect->execute();
+
+    $iRowsTable = $sQuerySelect->fetch(PDO::FETCH_BOTH)['cuenta_rows'];
+
     if($aCount['cuenta'] === 0){
-        $sQueryInsert = "INSERT INTO fechcargarch (table_name, fecha_carga) VALUES ('exclusiondcto', ".$cDate."')";
+        $sQueryInsert = "INSERT INTO fechcargarch (table_name, fecha_carga, rows_table) VALUES ('ascard', ".$cDate."', ".$iRowsTable.")";
         $oBd->query($sQueryInsert);
     }else{
         $sQueryUpdate = "UPDATE fechcargarch SET fecha_carga = " . $cDate;

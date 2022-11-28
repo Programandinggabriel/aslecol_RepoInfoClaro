@@ -52,7 +52,7 @@ for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
     $bd->commit();
 };
 echo "1";
-file_put_contents($sProgressFile, "");
+unlink($sRutaProgFile);
 f_SetDateTime();
 
 
@@ -87,22 +87,33 @@ function f_putTxt_progress($iProgress, $iCountFile){
  */
 function f_SetDateTime(){
     global $oBd;
+    $cNameTable = "acumciudades";
+    
+    //valida inexistencia
     $sQuerySelect = "SELECT COUNT(id_fechcargarch) As cuenta FROM fechcargarch 
     WHERE table_name = 'acumciudades'";
-
     $sQuerySelect = $oBd->prepare($sQuerySelect);
     $sQuerySelect->execute();
     $aCount = $sQuerySelect->fetch(PDO::FETCH_BOTH);
     
+    //campo fecha ultima carga
     date_default_timezone_set("America/Mexico_City");
     $cDate = "'".date('Y-m-d H:i:s')."'";
 
+    //campo irows
+    $sQuerySelect = "SELECT COUNT(*) As cuenta_rows FROM acumciudades";
+    $sQuerySelect = $oBd->prepare($sQuerySelect);
+    $sQuerySelect->execute();
+
+    $iRowsTable = $sQuerySelect->fetch(PDO::FETCH_BOTH)['cuenta_rows'];
+
     if($aCount['cuenta'] === 0){
-        $sQueryInsert = "INSERT INTO fechcargarch (table_name, fecha_carga) VALUES ('acumciudades', ".$cDate."')";
+        $sQueryInsert = "INSERT INTO fechcargarch (table_name, fecha_carga, rows_table) VALUES ('acumciudades', ".$cDate."', ".$iRowsTable.")";
         $oBd->query($sQueryInsert);
     }else{
         $sQueryUpdate = "UPDATE fechcargarch SET fecha_carga = " . $cDate;
         $oBd->query($sQueryUpdate);
     };
+
 };
 ?>

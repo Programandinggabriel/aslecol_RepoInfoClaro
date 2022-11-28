@@ -1,7 +1,9 @@
 <?php 
 require_once "../bd_conect/bd.php";
 
-$bd = obtenerBD();
+$oBd = obtenerBD();
+f_SetDateTime();
+die();
 
 #array con las columnas necesarias
 $aColumnasReq = array(1,2,3,4,5);
@@ -10,13 +12,13 @@ $sRutaProgFile = "./progress/values_ascard.txt";
 $oFileProgress = fopen($sRutaProgFile,'w'); //archivo para informar progress
 for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
     # Preparar base de datos para que los inserts sean rápidos
-    $bd->beginTransaction();
+    $oBd->beginTransaction();
 
     # Preparar sentencia de campos
     $sCampos = "numerocredito, referenciapago, marca, tipo, producto";
 
     /*$sCampos = "numerodecliente";*/
-    $sentencia = $bd->prepare("INSERT INTO ascard (".$sCampos.") 
+    $sentencia = $oBd->prepare("INSERT INTO ascard (".$sCampos.") 
     VALUES (?, ?, ?, ?, ?)");
 
     $sRutaCsv = '../csv/ascard'. $iCountFile .'.csv';
@@ -49,10 +51,10 @@ for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
         };
     };
     fclose($oFileCsv);
-    $bd->commit();
+    $oBd->commit();
 };
 echo "1";
-file_put_contents($sRutaProgFile, "");
+unlink($sRutaProgFile);
 f_SetDateTime();
 
 
@@ -97,11 +99,18 @@ function f_SetDateTime(){
     date_default_timezone_set("America/Mexico_City");
     $cDate = "'".date('Y-m-d H:i:s')."'";
 
+    $sQuerySelect = "SELECT COUNT(*) As cuenta_rows FROM ascard";
+    $sQuerySelect = $oBd->prepare($sQuerySelect);
+    $sQuerySelect->execute();
+
+    $iRowsTable = $sQuerySelect->fetch(PDO::FETCH_BOTH)['cuenta_rows'];
+
     if($aCount['cuenta'] === 0){
-        $sQueryInsert = "INSERT INTO fechcargarch (table_name, fecha_carga) VALUES ('ascard', ".$cDate."')";
+        $sQueryInsert = "INSERT INTO fechcargarch (table_name, fecha_carga, rows_table) VALUES ('ascard', ".$cDate."', ".$iRowsTable.")";
         $oBd->query($sQueryInsert);
     }else{
-        $sQueryUpdate = "UPDATE fechcargarch SET fecha_carga = " . $cDate;
+        $sQueryUpdate = "UPDATE fechcargarch SET fecha_carga = ".$cDate.", rows_table = ".$iRowsTable 
+        ."WHERE table_name =".;
         $oBd->query($sQueryUpdate);
     };
 
