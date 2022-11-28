@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 23-11-2022 a las 04:47:32
+-- Tiempo de generación: 28-11-2022 a las 05:14:13
 -- Versión del servidor: 5.7.33
 -- Versión de PHP: 7.4.19
 
@@ -105,6 +105,19 @@ CREATE TABLE `exclusiondcto` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `fechcargarch`
+--
+
+CREATE TABLE `fechcargarch` (
+  `id_fechcargarch` int(11) NOT NULL,
+  `table_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Nombre de tabla',
+  `date_updt` datetime NOT NULL COMMENT 'Fecha ultima carga datos',
+  `rows_table` int(11) NOT NULL COMMENT 'Numero de filas de la tabla '
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `infofechaxx`
 --
 
@@ -183,6 +196,12 @@ ALTER TABLE `exclusiondcto`
   ADD PRIMARY KEY (`id_exclusiondcto`);
 
 --
+-- Indices de la tabla `fechcargarch`
+--
+ALTER TABLE `fechcargarch`
+  ADD PRIMARY KEY (`id_fechcargarch`);
+
+--
 -- Indices de la tabla `infofechaxx`
 --
 ALTER TABLE `infofechaxx`
@@ -215,6 +234,12 @@ ALTER TABLE `consoldescar`
 --
 ALTER TABLE `exclusiondcto`
   MODIFY `id_exclusiondcto` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `fechcargarch`
+--
+ALTER TABLE `fechcargarch`
+  MODIFY `id_fechcargarch` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `infofechaxx`
