@@ -1,6 +1,7 @@
 <?php 
 require_once "../bd_conect/bd.php";
 
+$table = "acumciudades";
 $bd = obtenerBD();
 
 #array con las columnas necesarias
@@ -16,7 +17,7 @@ for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
     $sCampos = "ciudadLlave, ciudad, departamento, region, indicativos";
 
     /*$sCampos = "numerodecliente";*/
-    $sentencia = $bd->prepare("INSERT INTO acumciudades (".$sCampos.") 
+    $sentencia = $bd->prepare("INSERT INTO ".$table . " (".$sCampos.") 
                                VALUES (?, ?, ?, ?, ?)");
     
     $sRutaCsv = '../csv/ciudadesnorm'. $iCountFile .'.csv';
@@ -56,6 +57,7 @@ unlink($sRutaProgFile);
 f_SetDateTime();
 
 
+
 //Funcion cuenta registros del csv
 /** 
  * @param type $sRutaCsv -- ruta del archivo csv el cual contara las líneas
@@ -83,37 +85,39 @@ function f_putTxt_progress($iProgress, $iCountFile){
 };
 
 /**
- * funcion guarda registro de ultimo carge de información
+ * funcion guarda registro de ultimo carge de información en la bd
  */
 function f_SetDateTime(){
+    global $table;
     global $oBd;
-    $cNameTable = "acumciudades";
     
-    //valida inexistencia
+    //valido existencia de registro de la bd
     $sQuerySelect = "SELECT COUNT(id_fechcargarch) As cuenta FROM fechcargarch 
-    WHERE table_name = 'acumciudades'";
+    WHERE table_name = '" . $table."';";
+
     $sQuerySelect = $oBd->prepare($sQuerySelect);
     $sQuerySelect->execute();
     $aCount = $sQuerySelect->fetch(PDO::FETCH_BOTH);
     
-    //campo fecha ultima carga
-    date_default_timezone_set("America/Mexico_City");
+    //campos BD
+    date_default_timezone_set("America/Bogota");
     $cDate = "'".date('Y-m-d H:i:s')."'";
 
-    //campo irows
-    $sQuerySelect = "SELECT COUNT(*) As cuenta_rows FROM acumciudades";
+    $sQuerySelect = "SELECT COUNT(*) As cuenta_rows FROM ". $table;
+  
     $sQuerySelect = $oBd->prepare($sQuerySelect);
     $sQuerySelect->execute();
 
-    $iRowsTable = $sQuerySelect->fetch(PDO::FETCH_BOTH)['cuenta_rows'];
+    $iRowsTable = "'".$sQuerySelect->fetch(PDO::FETCH_BOTH)['cuenta_rows']."'";
 
     if($aCount['cuenta'] === 0){
-        $sQueryInsert = "INSERT INTO fechcargarch (table_name, fecha_carga, rows_table) VALUES ('acumciudades', ".$cDate."', ".$iRowsTable.")";
+        $sQueryInsert = "INSERT INTO fechcargarch (table_name, date_updt, rows_table) VALUES ('".$table."', ".$cDate.", ".$iRowsTable.")";
         $oBd->query($sQueryInsert);
     }else{
-        $sQueryUpdate = "UPDATE fechcargarch SET fecha_carga = " . $cDate;
+        $sQueryUpdate = "UPDATE fechcargarch SET date_updt = ".$cDate.", rows_table = ".$iRowsTable 
+        ."WHERE table_name = '".$table."'";
         $oBd->query($sQueryUpdate);
     };
-
 };
+
 ?>

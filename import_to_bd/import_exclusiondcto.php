@@ -1,6 +1,7 @@
 <?php 
 require_once "../bd_conect/bd.php";
 
+$table = "exclusiondcto";
 $bd = obtenerBD();
 
 #array con las columnas necesarias
@@ -16,7 +17,7 @@ for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
     $campos = "cuenta, segmento, nota";
 
     /*$campos = "numerodecliente";*/
-    $oSentencia = $bd->prepare("INSERT INTO exclusiondcto (".$campos.") 
+    $oSentencia = $bd->prepare("INSERT INTO ".$table." (".$campos.") 
                                 VALUES (?, ?, ?)");
     
     $sRutaCsv = '../csv/exclusiondcto'. $iCountFile .'.csv';
@@ -82,34 +83,40 @@ function f_putTxt_progress($iProgress, $iCountFile){
 };
 
 /**
- * funcion guarda registro de ultimo carge de información
+ * funcion guarda registro de ultimo carge de información en la bd
  */
 function f_SetDateTime(){
+    global $table;
     global $oBd;
+    
+    //valido existencia de registro de la bd
     $sQuerySelect = "SELECT COUNT(id_fechcargarch) As cuenta FROM fechcargarch 
-    WHERE table_name = 'ascard'";
+    WHERE table_name = '" . $table."';";
 
     $sQuerySelect = $oBd->prepare($sQuerySelect);
     $sQuerySelect->execute();
     $aCount = $sQuerySelect->fetch(PDO::FETCH_BOTH);
     
-    date_default_timezone_set("America/Mexico_City");
+    //campos BD
+    date_default_timezone_set("America/Bogota");
     $cDate = "'".date('Y-m-d H:i:s')."'";
 
-    $sQuerySelect = "SELECT COUNT(*) As cuenta_rows FROM ascard";
+    $sQuerySelect = "SELECT COUNT(*) As cuenta_rows FROM ". $table;
+  
     $sQuerySelect = $oBd->prepare($sQuerySelect);
     $sQuerySelect->execute();
 
-    $iRowsTable = $sQuerySelect->fetch(PDO::FETCH_BOTH)['cuenta_rows'];
+    $iRowsTable = "'".$sQuerySelect->fetch(PDO::FETCH_BOTH)['cuenta_rows']."'";
 
     if($aCount['cuenta'] === 0){
-        $sQueryInsert = "INSERT INTO fechcargarch (table_name, fecha_carga, rows_table) VALUES ('ascard', ".$cDate."', ".$iRowsTable.")";
+        $sQueryInsert = "INSERT INTO fechcargarch (table_name, date_updt, rows_table) VALUES ('".$table."', ".$cDate.", ".$iRowsTable.")";
         $oBd->query($sQueryInsert);
     }else{
-        $sQueryUpdate = "UPDATE fechcargarch SET fecha_carga = " . $cDate;
+        $sQueryUpdate = "UPDATE fechcargarch SET date_updt = ".$cDate.", rows_table = ".$iRowsTable 
+        ."WHERE table_name = '".$table."'";
         $oBd->query($sQueryUpdate);
+        echo "actualize";
     };
-
 };
 
 ?>

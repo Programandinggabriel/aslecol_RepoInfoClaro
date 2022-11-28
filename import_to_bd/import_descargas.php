@@ -1,10 +1,9 @@
 <?php 
 require_once "../bd_conect/bd.php";
 
+$table = "consoldescar";
 $oBd = obtenerBD();
 
-f_SetDateTime();
-die();
 #array con las columnas necesarias
 $aColumnasReq = array(1, 2, 3, 32, 4, 9, 13, 12, 15, 19, 20, 21, 22, 23, 25, 27, 29, 33, 34, 17, 5, 6, 7, 48, 47, 50, 45, 26);
 $aFilaCompleta = []; 
@@ -20,7 +19,7 @@ for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
     potencialmark, prepotencialmark, writeoffmark, refinanciedmark, customertypeid, activeslines, preciosubscripcion, accstsname";
 
     /*$campos = "numerodecliente";*/
-    $oSentencia = $oBd->prepare("INSERT INTO consoldescar (".$campos.") 
+    $oSentencia = $oBd->prepare("INSERT INTO ".$table." (".$campos.") 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
     $sRutaCsv = '../csv/descargas'. $iCountFile .'.csv';
@@ -38,7 +37,7 @@ for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
             try{
                 $oSentencia->execute($aFilaCompleta);
             }catch(Exception $e){
-                echo "<br> Fila ".$iCountRows;
+                echo "Swal( Campo con error en la fila ".$iCountRows,'', ''.")";
                 echo $e->getMessage();
                 //http_response_code(400);
                 die();
@@ -87,33 +86,40 @@ function f_putTxt_progress($iProgress, $iCountFile){
 };
 
 /**
- * funcion guarda registro de ultimo carge de información
+ * funcion guarda registro de ultimo carge de información en la bd
  */
 function f_SetDateTime(){
+    global $table;
     global $oBd;
+    
+    //valido existencia de registro de la bd
     $sQuerySelect = "SELECT COUNT(id_fechcargarch) As cuenta FROM fechcargarch 
-    WHERE table_name = 'ascard'";
+    WHERE table_name = '" . $table."';";
 
     $sQuerySelect = $oBd->prepare($sQuerySelect);
     $sQuerySelect->execute();
     $aCount = $sQuerySelect->fetch(PDO::FETCH_BOTH);
     
-    date_default_timezone_set("America/Mexico_City");
+    //campos BD
+    date_default_timezone_set("America/Bogota");
     $cDate = "'".date('Y-m-d H:i:s')."'";
 
-    $sQuerySelect = "SELECT COUNT(*) As cuenta_rows FROM ascard";
+    $sQuerySelect = "SELECT COUNT(*) As cuenta_rows FROM ". $table;
+  
     $sQuerySelect = $oBd->prepare($sQuerySelect);
     $sQuerySelect->execute();
 
-    $iRowsTable = $sQuerySelect->fetch(PDO::FETCH_BOTH)['cuenta_rows'];
+    $iRowsTable = "'".$sQuerySelect->fetch(PDO::FETCH_BOTH)['cuenta_rows']."'";
 
     if($aCount['cuenta'] === 0){
-        $sQueryInsert = "INSERT INTO fechcargarch (table_name, fecha_carga, rows_table) VALUES ('ascard', ".$cDate."', ".$iRowsTable.")";
+        $sQueryInsert = "INSERT INTO fechcargarch (table_name, date_updt, rows_table) VALUES ('".$table."', ".$cDate.", ".$iRowsTable.")";
         $oBd->query($sQueryInsert);
     }else{
-        $sQueryUpdate = "UPDATE fechcargarch SET fecha_carga = " . $cDate;
+        $sQueryUpdate = "UPDATE fechcargarch SET date_updt = ".$cDate.", rows_table = ".$iRowsTable 
+        ."WHERE table_name = '".$table."'";
         $oBd->query($sQueryUpdate);
     };
+
 
 };
 ?>
