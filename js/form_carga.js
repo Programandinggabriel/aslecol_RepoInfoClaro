@@ -1,3 +1,5 @@
+import {f_getFileSelectById} from './functions.js';
+
 document.addEventListener('DOMContentLoaded', ()=>{
   switch(numFile){
     case 1: //consolidado_descargas
@@ -76,33 +78,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
   });
 });
 
-
-
-/** 
- * Obtener archivo seleccionado en el index
-*/
-function f_getFileSelected(){
-  //numFile = variable traida por GET a form_carga_csv.php
-  switch(numFile){
-    case 1: //consolidado_descargas
-      nombre_file = "descargas";
-      break;
-    case 2: //prepotencial
-      nombre_file = "prepotencial";
-      break;
-    case 3: //ciudades_normalizado
-      nombre_file = "ciudadesnorm";
-      break;
-    case 4: //ascard
-      nombre_file = "ascard";
-      break;
-    case 5: //ascard
-      nombre_file = "exclusiondcto";
-      break;
-  };
-  return nombre_file;
-};
-
 /** 
  * funcion añade propiedades al DOM
 */
@@ -157,7 +132,7 @@ function f_valida_nomFiles(){
   let nombre_file = "";
   let tipo = ".csv";
 
-  nombre_file = f_getFileSelected();
+  nombre_file = f_getFileSelectById(numFile);
 
   let nrows_tb = $('#tabla_files tr').length;
   nrows_tb = nrows_tb - 1; //omitir encabezados
@@ -303,7 +278,7 @@ function f_Carga_Bd(){
 
   $('#btn_send_bd').off('click');
 
-  url = "../import_to_bd/import_" + f_getFileSelected() + ".php";
+  url = "../import_to_bd/import_" + f_getFileSelectById(numFile) + ".php";
   xhr.addEventListener('load', ()=>{
     clearInterval(timer);
     if(xhr.responseText === '1'){
@@ -342,7 +317,7 @@ function f_checkProgress(){
   
   let xhr = new XMLHttpRequest();
 
-  url = "../import_to_bd/progress/check_" + f_getFileSelected() + ".php";   
+  url = "../import_to_bd/progress/check_" + f_getFileSelectById(numFile) + ".php";   
   xhr.addEventListener('load',()=>{
     if(xhr.status === 200){
       if(xhr.responseText.length > 0){

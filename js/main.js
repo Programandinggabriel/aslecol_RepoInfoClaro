@@ -1,4 +1,7 @@
+import {f_getFileSelectById} from './functions.js';
+
 document.addEventListener('DOMContentLoaded',()=>{
+    
     $('button[name=btn_update]').click(function(){
         let iIdFileSelect = $(this).attr('id');
         
@@ -43,39 +46,13 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 
 
-/** 
- * funcion retorna archivo seleccionado en el index
- *  @param numFile --Entero, numero de archivo seleccionado 
-*/
-function f_getFileSelected(numFile){
-    //numFile = variable traida por GET a form_carga_csv.php
-    switch(numFile){
-      case 1: //consolidado_descargas
-        nombre_file = "descargas";
-        break;
-      case 2: //prepotencial
-        nombre_file = "prepotencial";
-        break;
-      case 3: //ciudades_normalizado
-        nombre_file = "ciudadesnorm";
-        break;
-      case 4: //ascard
-        nombre_file = "ascard";
-        break;
-      case 5: //ascard
-        nombre_file = "exclusiondcto";
-        break;
-    };
-    return nombre_file;
-  };
-
 /**
  * funcion crea peticion para borrar base datos
  * @param numFile -- integer, archivo seleccionado
  */
 function f_delete_Bd(numFile){
 
-    let sNamefile = f_getFileSelected(numFile);
+    let sNamefile = f_getFileSelectById(numFile);
             
     let url = './delete_from_bd/delete_' + sNamefile + '.php';
     let xml = new XMLHttpRequest();

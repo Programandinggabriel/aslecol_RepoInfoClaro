@@ -90,5 +90,5 @@
   </div> 
  </div>
 </body>
-<script src="../js/form_carga.js"></script>
+<script src="../js/form_carga.js"  type='module'></script>
 </html>
