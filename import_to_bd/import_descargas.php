@@ -119,7 +119,6 @@ function f_SetDateTime(){
         ."WHERE table_name = '".$table."'";
         $oBd->query($sQueryUpdate);
     };
-
-
 };
+
 ?>

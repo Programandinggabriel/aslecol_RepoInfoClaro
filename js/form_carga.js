@@ -8,10 +8,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
       break;
     case 3: //ciudades_normalizado
       $('#header').html('Cargar ciudades normalizado');
+      break;
     case 4: //Ascard
       $('#header').html('Cargar Ascard');
+      break;
     case 5: //Exclusion dcto
       $('#header').html('Cargar exclusión de descuento');
+      break;
   };
 
   f_updt_DOM();

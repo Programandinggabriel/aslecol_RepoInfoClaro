@@ -115,8 +115,6 @@ function f_SetDateTime(){
         $sQueryUpdate = "UPDATE fechcargarch SET date_updt = ".$cDate.", rows_table = ".$iRowsTable 
         ."WHERE table_name = '".$table."'";
         $oBd->query($sQueryUpdate);
-        echo "actualize";
     };
 };
-
 ?>

@@ -20,10 +20,10 @@
   <section class='row justify-content-center align-items-center vh-100'>
     <div class='col'>
       <div style='height:500px; width: 800px; overflow-y: auto; overflow-x: hidden;'>
-        <table class='table text-center' style='width: 700px;' id='load_files'>
+        <table class='table text-center' style='width: 800px;' id='load_files'>
           <th>Archivo</th>
           <th>Acción</th>
-          <th>Fecha actualización</th>
+          <th>información</th>
 
           <tr align='center' id='1'>
             <td>
