@@ -2,22 +2,22 @@
 require_once "../bd_conect/bd.php";
 
 $table = "acumciudades";
-$bd = obtenerBD();
+$oBd = obtenerBD();
 
 #array con las columnas necesarias
 $aColumnasReq = array(1,2,3,4,5);
 $aFilaCompleta = []; 
-$sProgressFile = "./progress/values_ciudadesnorm.txt";
+$sRutaProgFile = "./progress/values_ciudadesnorm.txt";
 $oFileProgress = fopen($sRutaProgFile,'w'); //archivo para informar progress
 for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
     # Preparar base de datos para que los inserts sean rápidos
-    $bd->beginTransaction();
+    $oBd->beginTransaction();
 
     # Preparar sentencia de campos
     $sCampos = "ciudadLlave, ciudad, departamento, region, indicativos";
 
     /*$sCampos = "numerodecliente";*/
-    $sentencia = $bd->prepare("INSERT INTO ".$table . " (".$sCampos.") 
+    $sentencia = $oBd->prepare("INSERT INTO ".$table . " (".$sCampos.") 
                                VALUES (?, ?, ?, ?, ?)");
     
     $sRutaCsv = '../csv/ciudadesnorm'. $iCountFile .'.csv';
@@ -50,7 +50,7 @@ for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
         };
     };
     fclose($oFileCsv);
-    $bd->commit();
+    $oBd->commit();
 };
 echo "1";
 unlink($sRutaProgFile);
@@ -79,9 +79,9 @@ function f_cuenta_lineasCsv($sRutaCsv){
  * @param type $iCountFile -- Valor de hoja en curso
 */
 function f_putTxt_progress($iProgress, $iCountFile){
-    global $sProgressFile;
+    global $sRutaProgFile;
 
-    file_put_contents($sProgressFile,($iProgress . ',' . $iCountFile));
+    file_put_contents($sRutaProgFile,($iProgress . ',' . $iCountFile));
 };
 
 /**
