@@ -315,9 +315,11 @@ function f_Carga_Bd(){
 */
 function f_checkProgress(){
   
+  let url = '';
   let xhr = new XMLHttpRequest();
 
-  url = "../import_to_bd/progress/check_" + f_getFileSelectById(numFile) + ".php";   
+  url = "../import_to_bd/progress/check_" + f_getFileSelectById(numFile) + ".php";
+
   xhr.addEventListener('load',()=>{
     if(xhr.status === 200){
       if(xhr.responseText.length > 0){

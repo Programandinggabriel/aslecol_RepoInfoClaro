@@ -2,7 +2,7 @@
 require_once "../bd_conect/bd.php";
 
 $table = "exclusiondcto";
-$bd = obtenerBD();
+$oBd = obtenerBD();
 
 #array con las columnas necesarias
 $aColumnasReq = array(1, 2, 3);
@@ -11,13 +11,13 @@ $sRutaProgFile = "./progress/values_exclusiondcto.txt";
 $oFileProgress = fopen($sRutaProgFile,'w'); //archivo para informar progress
 for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
     # Preparar base de datos para que los inserts sean rápidos
-    $bd->beginTransaction();
+    $oBd->beginTransaction();
 
     # Preparar oSentencia de campos
     $campos = "cuenta, segmento, nota";
 
     /*$campos = "numerodecliente";*/
-    $oSentencia = $bd->prepare("INSERT INTO ".$table." (".$campos.") 
+    $oSentencia = $oBd->prepare("INSERT INTO ".$table." (".$campos.") 
                                 VALUES (?, ?, ?)");
     
     $sRutaCsv = '../csv/exclusiondcto'. $iCountFile .'.csv';
@@ -50,7 +50,7 @@ for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
         };
     };
     fclose($oFileCsv);
-    $bd->commit();
+    $oBd->commit();
 };
 echo "1";
 unlink($sRutaProgFile);
