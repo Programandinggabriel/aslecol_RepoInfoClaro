@@ -6,7 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!--sweet alert-->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
   <script
     src="https://code.jquery.com/jquery-3.6.1.js"
     integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
@@ -32,7 +34,7 @@
             
             <td>  
               <button class='btn btn-success' style='height: 40px; width: 100px;' name='btn_update' id='1'>
-                Actualizar
+                Editar
               </button>
               <button class='btn btn-danger mx-2' style='height: 40px; width: 100px;' name='btn_delete' id = '1'> 
                 Eliminar
@@ -40,7 +42,7 @@
             </td>
             
             <td>
-              <button class='btn btn-info'>
+              <button class='btn btn-info' name='btn_getInfo' id='1'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                   <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -56,7 +58,7 @@
             
             <td>  
               <button class='btn btn-success' style='height: 40px; width: 100px;' name='btn_update' id='2'>
-                Actualizar
+                Editar
               </button>
               <button class='btn btn-danger mx-2' style='height: 40px; width: 100px;' name='btn_delete' id='2'>
                 Eliminar
@@ -64,7 +66,7 @@
             </td>
           
             <td>
-              <button class='btn btn-info'>
+              <button class='btn btn-info' name='btn_getInfo' id='2'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                   <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -80,7 +82,7 @@
             
             <td>  
               <button class='btn btn-success' style='height: 40px; width: 100px;' name='btn_update' id='3'>
-                Actualizar
+                Editar
               </button>
               <button class='btn btn-danger mx-2' style='height: 40px; width: 100px;' name='btn_delete' id='3'>
                 Eliminar
@@ -88,7 +90,7 @@
             </td>
 
             <td>
-              <button class='btn btn-info'>
+              <button class='btn btn-info' name='btn_getInfo' id='3'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                   <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -104,7 +106,7 @@
             
             <td>  
               <button class='btn btn-success' style='height: 40px; width: 100px;' name='btn_update' id='4'>
-                Actualizar
+                Editar
               </button>
               <button class='btn btn-danger mx-2' style='height: 40px; width: 100px;' name='btn_delete' id='4'>
                 Eliminar
@@ -112,7 +114,7 @@
             </td>
 
             <td>
-              <button class='btn btn-info'>
+              <button class='btn btn-info' name='btn_getInfo' id='4'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                   <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -121,22 +123,22 @@
             </td>
           </tr>
 
-          <tr align='center' id = '5'>
+          <tr align='center' id='5'>
             <td>
               <strong>EXCLUSIÓN DE DESCUENTO</strong>
             </td>  
             
             <td>  
               <button class='btn btn-success' style='height: 40px; width: 100px;' name='btn_update' id='5'>
-                Actualizar
+                Editar
               </button>
-              <button class='btn btn-danger mx-2' style='height: 40px; width: 100px;' name='btn_delete' id='1'>
+              <button class='btn btn-danger mx-2' style='height: 40px; width: 100px;' name='btn_delete' id='5'>
                 Eliminar
               </button>
             </td>
 
             <td>
-              <button class='btn btn-info'>
+              <button class='btn btn-info' name='btn_getInfo' id='5'>
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                   <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>

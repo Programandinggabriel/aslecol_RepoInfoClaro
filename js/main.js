@@ -41,6 +41,13 @@ document.addEventListener('DOMContentLoaded',()=>{
 
         let timer = setInterval(f_checkProgress, 2000);
     });
+
+    $('button[name=btn_getInfo]').click(function(){
+        let idFileSelect = parseInt($(this).attr('id'));
+        let sNamefile = f_getFileSelectById(idFileSelect);
+
+        f_checkInfoTable(sNamefile);
+    });
    
 },false);
 
@@ -133,5 +140,40 @@ function f_checkProgress(){
 };
 
 /**
- * 
+ * funcion realiza petición para obtener información del archivo seleccionado
+ * @param $sNamefile -- String, archivo seleccionado
  */
+function f_checkInfoTable(sNamefile){
+    let url = './check_files_updates.php?nameFile=' + sNamefile;
+    let oXml = new XMLHttpRequest();
+    
+    oXml.addEventListener('load', ()=>{
+        if(oXml.status === 200){
+            if(oXml.responseText != 'no info'){
+                let aInfo = oXml.responseText.split(',');
+                let iRowsTable = aInfo[0];
+                let dDateUpdate = aInfo[1];
+
+                Swal.fire({
+                    width: 700,
+                    title: 'Total de registros: ' + iRowsTable +'\n'+ 
+                          'Ultima actualización: ' + dDateUpdate,
+                    icon:'success',
+                });
+            }else{
+                //sin informción de la tabla 
+                Swal.fire({
+                    width: 700,
+                    title: 'Total de registros: 0' + '\n' +
+                          'Ultima actualización: sin fecha',
+                    icon:'error',
+                });
+            };
+        }else{
+            alert('error al ver información');
+        };      
+    },false);
+
+    oXml.open('POST', url);
+    oXml.send();
+};

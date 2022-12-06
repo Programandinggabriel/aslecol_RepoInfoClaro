@@ -73,6 +73,8 @@ function f_cuenta_lineasCsv($sRutaCsv){
     return $iTotallineas;
 };
 
+
+
 /** 
  * funcion escribe valor de progreso y la hoja en curso, en archivo txt
  * @param type $iProgress -- Valor del progreso en %
@@ -92,7 +94,7 @@ function f_SetDateTime(){
     global $oBd;
     
     //valido existencia de registro de la bd
-    $sQuerySelect = "SELECT COUNT(id_fechcargarch) As cuenta FROM fechcargarch 
+    $sQuerySelect = "SELECT COUNT(id_dateupdatetables) As cuenta FROM dateupdatetables 
     WHERE table_name = '" . $table."';";
 
     $sQuerySelect = $oBd->prepare($sQuerySelect);
@@ -111,10 +113,10 @@ function f_SetDateTime(){
     $iRowsTable = "'".$sQuerySelect->fetch(PDO::FETCH_BOTH)['cuenta_rows']."'";
 
     if($aCount['cuenta'] === 0){
-        $sQueryInsert = "INSERT INTO fechcargarch (table_name, date_updt, rows_table) VALUES ('".$table."', ".$cDate.", ".$iRowsTable.")";
+        $sQueryInsert = "INSERT INTO dateupdatetables (table_name, date_updt, rows_table) VALUES ('".$table."', ".$cDate.", ".$iRowsTable.")";
         $oBd->query($sQueryInsert);
     }else{
-        $sQueryUpdate = "UPDATE fechcargarch SET date_updt = ".$cDate.", rows_table = ".$iRowsTable 
+        $sQueryUpdate = "UPDATE dateupdatetables SET date_updt = ".$cDate.", rows_table = ".$iRowsTable 
         ."WHERE table_name = '".$table."'";
         $oBd->query($sQueryUpdate);
     };
