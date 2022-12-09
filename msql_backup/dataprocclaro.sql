@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 28-11-2022 a las 05:14:13
+-- Tiempo de generación: 09-12-2022 a las 04:27:14
 -- Versión del servidor: 5.7.33
 -- Versión de PHP: 7.4.19
 
@@ -92,6 +92,19 @@ CREATE TABLE `consoldescar` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `dateupdatetables`
+--
+
+CREATE TABLE `dateupdatetables` (
+  `id_dateupdatetables` int(11) NOT NULL,
+  `table_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Nombre de tabla',
+  `date_updt` datetime NOT NULL COMMENT 'Fecha ultima carga datos',
+  `rows_table` int(11) NOT NULL COMMENT 'Numero de filas de la tabla '
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `exclusiondcto`
 --
 
@@ -101,19 +114,6 @@ CREATE TABLE `exclusiondcto` (
   `segmento` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `nota` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `fechcargarch`
---
-
-CREATE TABLE `fechcargarch` (
-  `id_fechcargarch` int(11) NOT NULL,
-  `table_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Nombre de tabla',
-  `date_updt` datetime NOT NULL COMMENT 'Fecha ultima carga datos',
-  `rows_table` int(11) NOT NULL COMMENT 'Numero de filas de la tabla '
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -190,16 +190,17 @@ ALTER TABLE `consoldescar`
   ADD PRIMARY KEY (`id_consoldescar`);
 
 --
+-- Indices de la tabla `dateupdatetables`
+--
+ALTER TABLE `dateupdatetables`
+  ADD PRIMARY KEY (`id_dateupdatetables`),
+  ADD UNIQUE KEY `table_name` (`table_name`);
+
+--
 -- Indices de la tabla `exclusiondcto`
 --
 ALTER TABLE `exclusiondcto`
   ADD PRIMARY KEY (`id_exclusiondcto`);
-
---
--- Indices de la tabla `fechcargarch`
---
-ALTER TABLE `fechcargarch`
-  ADD PRIMARY KEY (`id_fechcargarch`);
 
 --
 -- Indices de la tabla `infofechaxx`
@@ -230,16 +231,16 @@ ALTER TABLE `consoldescar`
   MODIFY `id_consoldescar` int(10) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `dateupdatetables`
+--
+ALTER TABLE `dateupdatetables`
+  MODIFY `id_dateupdatetables` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `exclusiondcto`
 --
 ALTER TABLE `exclusiondcto`
   MODIFY `id_exclusiondcto` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `fechcargarch`
---
-ALTER TABLE `fechcargarch`
-  MODIFY `id_fechcargarch` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `infofechaxx`
