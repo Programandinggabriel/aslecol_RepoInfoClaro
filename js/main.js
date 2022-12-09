@@ -1,7 +1,8 @@
 import {f_getFileSelectById} from './functions.js';
 
-document.addEventListener('DOMContentLoaded',()=>{
-    
+window.addEventListener('load',()=>{
+    f_checkInfoTable();
+
     $('button[name=btn_update]').click(function(){
         let iIdFileSelect = $(this).attr('id');
         
@@ -40,15 +41,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         xml.send();
 
         let timer = setInterval(f_checkProgress, 2000);
-    });
-
-    $('button[name=btn_getInfo]').click(function(){
-        let idFileSelect = parseInt($(this).attr('id'));
-        let sNamefile = f_getFileSelectById(idFileSelect);
-
-        f_checkInfoTable(sNamefile);
-    });
-   
+    });   
 },false);
 
 
@@ -140,40 +133,53 @@ function f_checkProgress(){
 };
 
 /**
- * funcion realiza petición para obtener información del archivo seleccionado
- * @param $sNamefile -- String, archivo seleccionado
+ * funcion realiza petición a SERVIDOR para obtener información sobre las tablas de la BD
  */
-function f_checkInfoTable(sNamefile){
-    let url = './check_files_updates.php?nameFile=' + sNamefile;
+function f_checkInfoTable(){
+    let url = './check_files_updates.php';//?nameFile=' + sNamefile;
     let oXml = new XMLHttpRequest();
+    
     
     oXml.addEventListener('load', ()=>{
         if(oXml.status === 200){
-            if(oXml.responseText != 'no info'){
-                let aInfo = oXml.responseText.split(',');
-                let iRowsTable = aInfo[0];
-                let dDateUpdate = aInfo[1];
+            let oJSON = oXml.response;
+            //array con nombres de las tablas en la BD
+            let aNamesTbls = ['consoldescar', 'prepotencial', 'acumciudades', 'ascard', 'exclusiondcto'];
 
-                Swal.fire({
-                    width: 700,
-                    title: 'Total de registros: ' + iRowsTable +'\n'+ 
-                          'Ultima actualización: ' + dDateUpdate,
-                    icon:'success',
-                });
-            }else{
-                //sin informción de la tabla 
-                Swal.fire({
-                    width: 700,
-                    title: 'Total de registros: 0' + '\n' +
-                          'Ultima actualización: sin fecha',
-                    icon:'error',
-                });
+            for (let i in oJSON['tables']){
+                let snameTable = oJSON['tables'][i]['name'];
+                let irowsTable = oJSON['tables'][i]['rows'];
+                let dupdateDate = oJSON['tables'][i]['updateDate'];
+
+                let sTableCell = "<td>"+
+                                    "Número de filas: "+(irowsTable)+ "<br>"+
+                                    "Fecha actualización: "+(dupdateDate)+
+                                 "</td>";
+
+                switch(snameTable){
+                    case aNamesTbls[0]:
+                        $('#load_files tr[id=1]').append(sTableCell);
+                        break;
+                    case aNamesTbls[1]:
+                        $('#load_files tr[id=2]').append(sTableCell);
+                        break;
+                    case aNamesTbls[2]:
+                        $('#load_files tr[id=3]').append(sTableCell);
+                        break;   
+                    case aNamesTbls[3]:
+                        $('#load_files tr[id=4]').append(sTableCell);
+                        break;           
+                    case aNamesTbls[4]:
+                        $('#load_files tr[id=5]').append(sTableCell);
+                        break;   
+                };
             };
         }else{
-            alert('error al ver información');
+            alert('Error al realizar la petición');
         };      
     },false);
 
     oXml.open('POST', url);
+    oXml.responseType = 'json';
     oXml.send();
 };
