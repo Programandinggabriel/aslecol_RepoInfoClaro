@@ -66,14 +66,22 @@ function f_delete_Bd(numFile){
                     icon: 'success',
                     title: 'Se elimino la información',
                     text: 'Se eliminaron ' + iResponse + ' registros de información correctamente' 
+                }).then((result)=>{
+                    if(result){
+                        location.reload();
+                    };
                 }); 
             }else if(iResponse === 0){
                 Swal.fire({
                     icon: 'error',
                     title: 'No hay registros para eliminar',
                     text: 'Se eliminaron ' + iResponse + ' registros de información' 
+                }).then((result)=>{
+                    if(result){
+                        location.reload();
+                    };
                 }); 
-            }
+            };
         };
    },false);
 
