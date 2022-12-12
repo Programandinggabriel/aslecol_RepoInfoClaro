@@ -37,7 +37,7 @@ for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
             try{
                 $oSentencia->execute($aFilaCompleta);
             }catch(Exception $e){
-                echo "Swal( Campo con error en la fila ".$iCountRows,'', ''.")";
+                echo "Campo con error en la fila ".$iCountRows . "  ";
                 echo $e->getMessage();
                 //http_response_code(400);
                 die();

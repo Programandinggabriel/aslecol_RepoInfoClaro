@@ -73,7 +73,7 @@
               </svg>
             </button>
             
-            <button class='col-3 offset-1 btn btn-danger' type='button' id='cancel_1'> Cancelar </button>   
+            <button class='col-4 mx-2 btn btn-danger' type='button' id='cancel_1'> Cancelar </button>   
           </div>
         </td>
       </tr>

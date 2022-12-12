@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     //añade barra de carga para visualizar progreso de insert mediante petición
     let html = 
-    "<h2 class='row justify-content-center mt-5'>Progreso de carga...</h2>" + 
+    "<h2 class='row justify-content-center'>Progreso de carga...</h2>" + 
 
     "<div class='row justify-content-center'>" + 
     "<div class='progress' style='height:30px; width: 60%;'>" + 
