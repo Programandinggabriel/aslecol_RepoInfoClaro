@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     //añade barra de carga para visualizar progreso de insert mediante petición
     let html = 
-    "<h2 class='row justify-content-center'>Progreso de carga...</h2>" + 
+    "<h2 class='row justify-content-center mt-5'>Progreso de carga...</h2>" + 
 
     "<div class='row justify-content-center'>" + 
     "<div class='progress' style='height:30px; width: 60%;'>" + 
@@ -71,10 +71,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     "</div>" + 
     "</div>" +
     "</div>";
-
-    if($('#progress_insert div').length === 0){  
-      $('#progress_insert').append(html);
-    };
+ 
+    $('#progress_insert').append(html);
   });
 });
 
@@ -92,8 +90,8 @@ function f_updt_DOM () {
  * Funcion agrega nueva fila a el documento para un nuevo archivo input file
  * Retorno número de filas en la tabla 
  */
-function f_append_row(id_row){
-
+function f_append_row(){
+  let id_row = parseInt($('#tabla_files tbody tr').last().attr('id')) + 1;
   let ids = { id_form: ('file_' + id_row), id_bar: ('barra_estado_' + id_row), id_btn_cancel: ('cancel_' + id_row)};
   let fila = 
   "<tr id='"+ id_row +"'>" +
@@ -290,13 +288,28 @@ function f_Carga_Bd(){
       span.html('100%');
       oHeader.html('Cargado con éxito');
       alert('!Cargado con éxito¡');
+      window.location.href = '../index.php';
     }else{
       alert('Error al cargar los datos del archivo...');
       alert(xhr.responseText);
-      $('#progress_insert ')
-      $('#btn_send_bd').click(function(){
+      $('#btn_send_bd').on('click', function(){
         f_Carga_Bd();
+
+        //añade barra de carga para visualizar progreso de insert mediante petición
+        let html = 
+        "<h2 class='row justify-content-center mt-5'>Progreso de carga...</h2>" + 
+    
+        "<div class='row justify-content-center'>" + 
+        "<div class='progress' style='height:30px; width: 60%;'>" + 
+        "<div class='progress-bar bg-info' id='progBar_insert'>" + 
+          "<span style='font-size:20px;'></span>" + 
+        "</div>" + 
+        "</div>" +
+        "</div>";
+    
+        $('#progress_insert').append(html);
       });
+      $('#progress_insert').empty();
     };
   },false);
 
