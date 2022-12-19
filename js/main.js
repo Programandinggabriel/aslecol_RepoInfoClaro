@@ -37,7 +37,9 @@ window.addEventListener('load',()=>{
         }, false)
 
         //realizar querys en la base datos
-        xml.open('POST', './file_master/create_file/info_mysqli.php');
+        //xml.open('POST', './file_master/create_file/info_mysqli.php');
+        xml.open('POST', './file_master/create_file/info_postgress.php');
+
         xml.send();
 
         let timer = setInterval(f_checkProgress, 2000);
@@ -136,7 +138,8 @@ function f_checkProgress(){
         };
     }, false);
 
-    xml.open('POST','./querys_create_file/check_status.php');
+    //xml.open('POST','./querys_create_file/check_status.php');
+    xml.open('POST','./querys_create_file/check_status_pg.php');
     xml.send();
 };
 

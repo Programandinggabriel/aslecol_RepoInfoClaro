@@ -1,7 +1,7 @@
 <?php
 
-require_once '../bd_conect/bd.php';
-$bd = obtenerBD();
+require_once '../../bd_conect/bd.php';
+$oBD = obtenerBD();
 
 //hoja donde pondra estado de las consultas
 $sRutaTxtEstado = './status_postgress.txt';
