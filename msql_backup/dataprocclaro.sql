@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 09-12-2022 a las 04:27:14
+-- Tiempo de generación: 24-12-2022 a las 21:37:14
 -- Versión del servidor: 5.7.33
 -- Versión de PHP: 7.4.19
 
@@ -32,8 +32,8 @@ CREATE TABLE `acumciudades` (
   `ciudadLlave` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `ciudad` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `departamento` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `region` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `indicativos` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `region` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `indicativos` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
