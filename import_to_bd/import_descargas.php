@@ -31,7 +31,14 @@ for($iCountFile = 1 ; $iCountFile <= $_GET['num_Files'] ; $iCountFile++){
         $iCountRows++;
         if($iCountRows > 1){
             foreach($aColumnasReq as $vCol){
-                array_push($aFilaCompleta, $lineCsv[$vCol - 1]);  
+                $vValorColCsv= $lineCsv[$vCol - 1];
+                //modifica formato del campo modinitcta
+                if ($vCol === 9){
+                    $iModinitCta = str_replace(',','.',$lineCsv[$vCol - 1]);
+                    $iModinitCta = str_replace(',','.',number_format(round($iModinitCta,0)));
+                    $vValorColCsv = $iModinitCta;
+                };
+                array_push($aFilaCompleta, $vValorColCsv);  
             };
             
             try{

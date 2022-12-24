@@ -47,11 +47,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
       confirmButtonText: '!Si, enviar¡'
     }).then((result) => {
       if (result.isConfirmed) {
-        
         for( var i = 1 ; i <= nrows_tb ; i++){
           f_sube_archivo(i);
         };
-    
         f_modifica_Btn_Send();
       };
     })
