@@ -31,14 +31,19 @@ window.addEventListener('load',()=>{
         let xml = new XMLHttpRequest();
 
         xml.addEventListener('load', ()=>{
+            let oHeader = $('#status_file');
+            
             clearInterval(timer);
+            oHeader.html('Crear archivo');
+            alert('guardado en la ruta de "descargas"');
+
             //funcion peticion crear excel
             
         }, false)
 
         //realizar querys en la base datos
-        //xml.open('POST', './file_master/create_file/info_mysqli.php');
-        xml.open('POST', './file_master/create_file/info_postgress.php');
+        xml.open('POST', './file_master/create_file/info_mysqli.php');
+        //xml.open('POST', './file_master/create_file/info_postgress.php');
 
         xml.send();
 
@@ -107,24 +112,21 @@ function f_checkProgress(){
                     oHeader.html('Iniciando...');
                     break;
                 case 1:
-                    oHeader.html('Formateando a número campo (MODINITCTA)');
-                    break;
-                case 2:
                     oHeader.html('Completando campo (ASIGNACIÓN)');
                     break;
-                case 3:
+                case 2:
                     oHeader.html('Completando campo (VERIFICACIÓN PYME)');
                     break;
-                case 4:
+                case 3:
                     oHeader.html('Completando campo (CARTERA)');
                     break;
-                case 5:
+                case 4:
                     oHeader.html('Cruzando con (ACUMULADO DE CIUDADES) para campo (REGIÓN)');
                     break;
-                case 6:
+                case 5:
                     oHeader.html('Completando rango de carteras, campo (RANGO)');
                     break;
-                case 7:
+                case 6:
                     oHeader.html('Cruzando con (ASCARD) para campo (ASCARD)');
                     break;
                 case 7:
@@ -133,13 +135,12 @@ function f_checkProgress(){
                 case 8:
                     oHeader.html('Cruzando con (EXLUSIÓN DCTO) para campo (EXCLUSIÓN)');
                     break;
-
             };
         };
     }, false);
 
-    //xml.open('POST','./querys_create_file/check_status.php');
-    xml.open('POST','./querys_create_file/check_status_pg.php');
+    xml.open('POST','./querys_create_file/check_status.php');
+    //xml.open('POST','./querys_create_file/check_status_pg.php');
     xml.send();
 };
 
