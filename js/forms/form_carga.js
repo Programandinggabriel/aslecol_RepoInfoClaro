@@ -1,4 +1,4 @@
-import {f_getFileSelectById} from './functions.js';
+import {f_getFileSelectById} from '../functions/functions.js';
 
 document.addEventListener('DOMContentLoaded', ()=>{
   switch(numFile){
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   f_updt_DOM();
 
-  $("#btn_back").click(()=>{window.location.href = '../index.php'});
+  $("#btn_back").click(function(){window.location.href='../index.php'});
 
   let btn_add = document.getElementById('btn_add_file');
   btn_add.addEventListener('click', ()=>{

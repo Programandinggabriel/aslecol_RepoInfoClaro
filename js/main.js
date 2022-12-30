@@ -1,4 +1,4 @@
-import {f_getFileSelectById} from './functions.js';
+import {f_getFileSelectById} from './functions/functions.js';
 
 window.addEventListener('load',()=>{
     f_checkInfoTable();
@@ -14,7 +14,7 @@ window.addEventListener('load',()=>{
         
         Swal.fire({
             title: '!ATENCIÓN¡',
-            text: "Al eliminar todos los registros, todo el contenido de este archivo no se tendra en cuenta para el archivo",
+            text: "Al eliminar la informaciíon, no se tendra en cuenta para al crear el archivo 'Info'",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -33,21 +33,26 @@ window.addEventListener('load',()=>{
         xml.addEventListener('load', ()=>{
             let oHeader = $('#status_file');
             
-            clearInterval(timer);
-            oHeader.html('Crear archivo');
-            alert('guardado en la ruta de "descargas"');
-
-            //funcion peticion crear excel
+            alert('!archivo terminado¡');
             
-        }, false)
+            oHeader.empty();
+            oHeader.removeClass('text-center');
+            oHeader.attr('style', 'width:400px; height:20px;');
+            $('#start').addClass('mt-3');
+            
+            //referencia a formulario de descuentos
+            oHeader.append("<a class='mb-3' href='./forms/form_dcto.php'>Añadir descuentos</a>");
+            
+            //funcion peticion crear excel
 
+        }, false);
+        
+        $('#status_file').html('Creando archivo...');
+        
         //realizar querys en la base datos
         xml.open('POST', './file_master/create_file/info_mysqli.php');
         //xml.open('POST', './file_master/create_file/info_postgress.php');
-
         xml.send();
-
-        let timer = setInterval(f_checkProgress, 2000);
     });   
 },false);
 
@@ -96,54 +101,6 @@ function f_delete_Bd(numFile){
    xml.send();
 };
 
-/** 
- * funcion realiza petición para validar el estado del informe
- * 
-*/
-function f_checkProgress(){
-    let xml = new XMLHttpRequest();
-
-    xml.addEventListener('load', ()=>{
-        let oHeader = $('#status_file');
-
-        if(xml.status === 200){
-            switch(parseInt(xml.responseText)){
-                case 0:
-                    oHeader.html('Iniciando...');
-                    break;
-                case 1:
-                    oHeader.html('Completando campo (ASIGNACIÓN)');
-                    break;
-                case 2:
-                    oHeader.html('Completando campo (VERIFICACIÓN PYME)');
-                    break;
-                case 3:
-                    oHeader.html('Completando campo (CARTERA)');
-                    break;
-                case 4:
-                    oHeader.html('Cruzando con (ACUMULADO DE CIUDADES) para campo (REGIÓN)');
-                    break;
-                case 5:
-                    oHeader.html('Completando rango de carteras, campo (RANGO)');
-                    break;
-                case 6:
-                    oHeader.html('Cruzando con (ASCARD) para campo (ASCARD)');
-                    break;
-                case 7:
-                    oHeader.html('Cruzando con (ASCARD) para campo (ASCARD)');
-                    break;
-                case 8:
-                    oHeader.html('Cruzando con (EXLUSIÓN DCTO) para campo (EXCLUSIÓN)');
-                    break;
-            };
-        };
-    }, false);
-
-    xml.open('POST','./querys_create_file/check_status.php');
-    //xml.open('POST','./querys_create_file/check_status_pg.php');
-    xml.send();
-};
-
 /**
  * funcion realiza petición a SERVIDOR para obtener información sobre las tablas de la BD
  */
@@ -164,7 +121,7 @@ function f_checkInfoTable(){
                 let dupdateDate = oJSON['tables'][i]['updateDate'];
 
                 let sTableCell = "<td>"+
-                                    "Número de filas: "+(irowsTable)+ "<br>"+
+                                    "Número de registros: "+(irowsTable)+ "<br>"+
                                     "Fecha actualización: "+(dupdateDate)+
                                  "</td>";
 
