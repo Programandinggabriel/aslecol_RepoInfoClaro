@@ -23,7 +23,7 @@
   <title>Aplicar descuentos</title>
 </head>
 <body>
-  <section class='container-fluid' style='padding: 100px;'>
+  <section class='container-fluid' style='padding: 50px;'>
     <div class='row'>
       <h1 class='text-center'>Aplicar descuentos $</h1>
       <form class='mt-5 col-5' style='font-size: 25px;' id='frm_dctos'>
@@ -114,8 +114,8 @@
 
         if($iCount >= 1){
           echo "<div class='row justify-content-start'>
-                  <button class='col-2 btn btn-info' onclick='f_loadDctos()'>
-                    <b>Descuentos guardados</b>
+                  <button class='col-3 btn btn-info' onclick='f_loadDctos()'>
+                    <b>Ver guardados</b>
                   </button>
                 </div> ";
         };

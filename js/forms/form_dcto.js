@@ -49,21 +49,48 @@ $('#btn_submit').click(function(){
  * función carga los descuentos existentes en la base de datos
  * a la tabla html dctos 
  */
+var example = "";
 function f_loadDctos(){
     let oXhr = new XMLHttpRequest();
     let sUrl = "./sql/load_dctos.php";
 
-    oXhr.open('POST', sUrl);
+    oXhr.open('GET', sUrl);
     
     oXhr.addEventListener('load', function(){
-        if(oXhr.status === '200'){
-            let oJson = oXhr.response;
-            console.log(oJson);
+        if(oXhr.status === 200){
+            let oResponse = oXhr.response;
+            const oDescuentos = oResponse['descuentos'];//ubica la colección de (descuentos) del objeto JSON 
+            
+            //recorre colección de descuentos, añade a tabla
+            let oDescuento;
+            let oTableDctos = $('#tb_dctos');
+            let sRowsTable = "", iIdRow = 0;
+            
+            for(iIndexDcto in oDescuentos){
+                oDescuento = oDescuentos[iIndexDcto];
+                iIdRow++;
+                sRowsTable += "<tr id="+(iIdRow)+">"+
+                                "<td>"+(oDescuento.descuento)+"</td>"+
+                                "<td>"+(oDescuento.tipoCuenta)+"</td>"+
+                                "<td>"+(oDescuento.campanna)+"</td>"+
+                                "<td>"+(oDescuento.cartera)+"</td>"+
+                                "<td>"+(oDescuento.verifPyme)+"</td>"+
+                                "<td>"+
+                                    "<button class='btn btn-danger' onclick='f_deleteDcto($(this))'>Remover</button>"+
+                                "</td>"+                                
+                            "</tr>";
+            };
+            oTableDctos.append(sRowsTable);
+        }else{
+            location.reload();
         };
-    }, false);
+    }, true);
 
-    oXhr.send();
     oXhr.responseType = 'json';
+    oXhr.send();
+
+    //remueve button 
+    
 };
 
 /** 
@@ -107,7 +134,7 @@ function f_insertDcto(){
     oxhr.open('POST', sUrl);
 
     oxhr.addEventListener('load', function(){
-        if(oxhr.status = '200'){
+        if(oxhr.status === 200){
             if(oxhr.responseText === 'false'){
                 //inserta en base de datos y tabla html
                 let oxhr = new XMLHttpRequest();
@@ -123,7 +150,7 @@ function f_insertDcto(){
                 oxhr.open('POST', sUrl);
             
                 oxhr.addEventListener('load', function(){
-                    if(oxhr.status = '200'){
+                    if(oxhr.status === 200){
                         if((oxhr.responseText === 'true')){
                             //inserta en tabla html
                             f_insertRow(); 
@@ -192,7 +219,7 @@ function f_deleteDcto(oBtnClick){
     oxhr.open('POST', sUrl);
 
     oxhr.addEventListener('load', function(){
-        if(oxhr.status = '200'){
+        if(oxhr.status === 200){
             if(oxhr.responseText === 'true'){
                 //inserta en tabla html
                 f_deleteRow(iIdRowSelect); 
